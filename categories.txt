@@ -1,0 +1,22 @@
+Rental service categories
+
+Clothings 
+
+Bikes
+
+Cars
+
+Boats
+
+Homes
+
+Home appliances
+
+Gadgets
+
+Musical instruments
+
+Sports
+
+Friendship
+
