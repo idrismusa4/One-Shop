@@ -1,20 +1,20 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { ThemeContext, styles } from './context/ThemeContext';
+import LoginScreen from './screens/LoginScreen';
+import { useState } from 'react';
 
 export default function App() {
+  const [currentTheme, setCurrentTheme] = useState('light');
+  function toggleTheme(){
+    setCurrentTheme((currentTheme) => currentTheme === 'light' ? 'dark' : 'light');
+  }
   return (
-    <View style={styles.container}>
-      <Text style={{ color: "white" }}>oneshop is live!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <ThemeContext.Provider value={{ 
+      theme: currentTheme, 
+      toggleTheme: toggleTheme,
+      themeStyles: currentTheme === 'light' ? styles.lightStyles : styles.darkStyles
+      }}>
+      <LoginScreen />
+    </ThemeContext.Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'blue',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
