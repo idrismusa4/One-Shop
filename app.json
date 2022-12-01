@@ -9,7 +9,7 @@
     "splash": {
       "image": "./assets/icon2.gif",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "blue"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

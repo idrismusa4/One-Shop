@@ -28,7 +28,7 @@ export const styles = {
     darkStyles: {
         container: {
             flex: 1,
-            backgroundColor: 'black',
+            backgroundColor: '#05010d', //dark navy blue for dark bg
             padding: 20,
             marginTop: StatusBar.currentHeight
         },
