@@ -11,7 +11,8 @@ export const styles = {
         container: {
             flex: 1,
             backgroundColor: 'white',
-            padding: 20,
+            paddingLeft: 20,
+            paddingRight: 20,
             marginTop: StatusBar.currentHeight
         },
         title: {
@@ -28,12 +29,42 @@ export const styles = {
         },
         regularText: { 
             fontSize: 20
+        },
+        form: {
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            paddingLeft: 20, 
+            paddingRight: 20 
+        },
+        inputContainer: {
+            width: '100%',
+            height: 78,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            justifyContent: 'space-around',
+        },
+        inputLabel: {
+            fontSize: 15,
+            fontWeight: 'regular'
+        },
+        input: {
+            width: '100%',
+            height: 50,
+            fontSize: 20,
+            paddingLeft: 30,
+            paddingRight: 30,
+            color: '#110101',
+            backgroundColor: '#D9D9D9',
+            borderRadius: 26
         }
     },
     darkStyles: {
         container: {
             flex: 1,
-            backgroundColor: '#05010d', //dark navy blue for dark bg
+            backgroundColor: '#05010d',
             padding: 10,
             marginTop: StatusBar.currentHeight
         },

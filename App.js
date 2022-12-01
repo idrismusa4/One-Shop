@@ -45,7 +45,7 @@ export default function App() {
       }}>
         <NavigationContainer>
           <Stack.Navigator 
-          initialRouteName='Welcome'
+          initialRouteName='Register'
             screenOptions={{
               headerShown: false
             }}
