@@ -26,9 +26,8 @@ export default function App() {
   async function getUser(){
     let user = await AsyncStorage.getItem('@user');
     setUser(JSON.parse(user));
-    // console.log(JSON.parse(user));
   }
-  getUser();
+  // getUser();
   useEffect(() => {
     // saveUser({ name: "Harrison" });
     // getUser();
@@ -48,7 +47,7 @@ export default function App() {
           <Stack.Navigator 
           initialRouteName='Welcome'
             screenOptions={{
-              // headerShown: false
+              headerShown: false
             }}
           >
             <Stack.Screen name="Welcome" component={WelcomeScreen} />

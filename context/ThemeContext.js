@@ -10,30 +10,36 @@ export const styles = {
     lightStyles: {
         container: {
             flex: 1,
-            backgroundColor: 'cyan',
+            backgroundColor: 'white',
             padding: 20,
             marginTop: StatusBar.currentHeight
         },
         title: {
             fontSize: 30,
+            fontWeight: 'bold',
             color: 'black'
         },
         logo: {
-            width: 100,
-            height: 100,
+            width: 300,
+            height: 300,
             marginLeft: 'auto',
-            marginRight: 'auto'
+            marginRight: 'auto',
+            borderRadius: 300
+        },
+        regularText: { 
+            fontSize: 20
         }
     },
     darkStyles: {
         container: {
             flex: 1,
             backgroundColor: '#05010d', //dark navy blue for dark bg
-            padding: 20,
+            padding: 10,
             marginTop: StatusBar.currentHeight
         },
         title: {
             fontSize: 30,
+            fontWeight: 'bold',
             color: 'white'
         },
         logo: {

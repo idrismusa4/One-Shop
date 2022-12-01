@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, Pressable } from 'react-native';
 import { useState, useContext } from 'react';
 import { ThemeContext } from '../context/ThemeContext';
 
@@ -8,10 +8,17 @@ export default function WelcomeScreen({ navigation }) {
 
   return (
     <ScrollView contentContainerStyle={themeStyles.container}>
-      {/* <Image source={{uri: 'https://picsum.photos/id/237/200/300'}} style={themeStyles.logo} alt='logo' /> */}
-      <TouchableOpacity onPress={ () => { navigation.navigate('Register') } }>
-        <Text style={themeStyles.title}>Welcome</Text>
-      </TouchableOpacity>
+        <View style={{ width: '100%', flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: 'transparent', paddingTop: 50 }}>
+            <Image source={require('../assets/logo.png')} style={themeStyles.logo} alt='logo' />
+                <Text style={themeStyles.title}>Welcome to OneShop</Text>
+                <Text style={{ ...themeStyles.regularText, marginTop: 5 }}>Your No. 1 One-Stop Rental</Text>
+
+                <Pressable style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#C0DD4D', height: 50, paddingLeft: 20, paddingRight: 20, marginTop: 'auto', borderRadius: 30 }} 
+                onPress={() => { navigation.navigate('Register') }}
+                >
+                    <Text style={{ ...themeStyles.regularText, color: 'white'}}>Get Started</Text>
+                </Pressable>
+        </View>
     </ScrollView>
   );
 }
