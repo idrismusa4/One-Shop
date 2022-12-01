@@ -4,12 +4,12 @@
     "slug": "oneshop",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo2.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/icon2.gif",
-      "resizeMode": "contain",
-      "backgroundColor": "blue"
+      "image": "./assets/logo2.png",
+      
+      "backgroundColor": "white"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

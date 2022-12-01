@@ -45,14 +45,15 @@ export default function App() {
       }}>
         <NavigationContainer>
           <Stack.Navigator 
-          initialRouteName='Register'
+          initialRouteName='Welcome'
             screenOptions={{
-              headerShown: false
+              headerShown: false,
+              presentation: 'modal'
             }}
-          >
+            >
             <Stack.Screen name="Welcome" component={WelcomeScreen} />
-            <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Register" component={RegisterScreen} />
+            <Stack.Screen name="Login" component={LoginScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </ThemeContext.Provider>

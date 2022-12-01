@@ -66,7 +66,7 @@ export default function LoginScreen({ navigation }) {
         onPress={() => { navigation.navigate('Register') }}
         >
         <Image source={require('../assets/apple.png')} style={{ width: 30, height: 30 }} alt='apple-logo' />
-        <Text style={{ ...themeStyles.regularText, color: 'white'}}>Sign up with Apple</Text>
+        <Text style={{ ...themeStyles.regularText, color: 'white'}}>Sign in with Apple</Text>
       </Pressable>
 
       <Pressable 
@@ -74,7 +74,7 @@ export default function LoginScreen({ navigation }) {
         onPress={() => { navigation.navigate('Register') }}
         >
         <Image source={require('../assets/google.png')} style={{ width: 30, height: 30 }} alt='apple-logo' />
-        <Text style={{ ...themeStyles.regularText, color: 'white'}}>Sign up with Google</Text>
+        <Text style={{ ...themeStyles.regularText, color: 'white'}}>Sign in with Google</Text>
       </Pressable>
 
       <TouchableOpacity 

@@ -13,8 +13,8 @@ export default function WelcomeScreen({ navigation }) {
                 <Text style={themeStyles.title}>Welcome to OneShop</Text>
                 <Text style={{ ...themeStyles.regularText, marginTop: 5 }}>Your No. 1 One-Stop Rental</Text>
 
-                <Pressable style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#C0DD4D', height: 50, paddingLeft: 20, paddingRight: 20, marginTop: 'auto', borderRadius: 30 }} 
-                onPress={() => { navigation.navigate('Register') }}
+                <Pressable style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#C0DD4D', height: 50, paddingLeft: 20, paddingRight: 20, marginTop: 'auto', marginBottom: 20, borderRadius: 30 }} 
+                onPress={() => { navigation.replace('Register') }}
                 >
                     <Text style={{ ...themeStyles.regularText, color: 'white'}}>Get Started</Text>
                 </Pressable>
