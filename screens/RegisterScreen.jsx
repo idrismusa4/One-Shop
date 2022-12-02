@@ -20,7 +20,7 @@ export default function RegisterScreen({ navigation }) {
 
   return (
     <View style={themeStyles.container}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
       <Image source={require('../assets/logo.png')} style={{ ...themeStyles.logo, width: 150, height: 150 }} alt='logo' />
       <View style={themeStyles.form}>
         <Text style={themeStyles.title}>Sign Up</Text>

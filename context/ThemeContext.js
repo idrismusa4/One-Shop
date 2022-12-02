@@ -59,6 +59,39 @@ export const styles = {
             color: '#110101',
             backgroundColor: '#D9D9D9',
             borderRadius: 26
+        },
+        welcome: {
+            fontWeight: 'bold',
+            fontSize: 25,
+            lineHeight: 24,
+            letterSpacing: 0.01,
+            color: '#000000',
+            mixBlendMode: 'normal',
+            textShadowColor: 'rgba(0, 0, 0, 0.5)',
+            textShadowOffset: {
+                width: 0,
+                height: 2
+            },
+            textShadowRadius: 10
+        },
+        homeCategories: {
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginTop: 20
+        },
+        homeCategory: {
+            display: 'flex',
+            justifyContent: 'center',
+            padding: 10,
+            paddingLeft: 20,
+            paddingRight: 20,
+            backgroundColor: '#C0DD4D',
+            borderRadius: 50,
+            color: 'white',
+            fontWeight: 'bold',
+            fontSize: 15,
+            marginRight: 5
         }
     },
     darkStyles: {

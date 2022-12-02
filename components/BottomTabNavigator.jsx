@@ -56,19 +56,23 @@ export default function BottomTabNavigator(){
               return <FontAwesome name={iconName} size={20} color={color} />;
             }
           },
+          headerShown: false,
           tabBarIndicatorStyle: {
             height: 0
           },
-          tabBarActiveTintColor: 'green',
+          tabBarActiveTintColor: '#C0DD4D',
           tabBarInactiveTintColor: 'black',
           tabBarLabelStyle: {
             fontSize: 12,
             textTransform: 'none'
           },
           tabBarStyle: {
-            height: 80,
+            height: 69,
             borderTopWidth: 2,
           },
+          tabBarStyle: {
+            height: 50
+          }
         })}
         >
             <Tab.Screen name="Home" component={HomeScreen} />
