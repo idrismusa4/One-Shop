@@ -3,13 +3,13 @@ import { Text, ScrollView } from 'react-native';
 import { useContext } from 'react';
 import { ThemeContext } from '../context/ThemeContext';
 
-function HomeScreen() {
+function AddItemScreen() {
     const { themeStyles, user } = useContext(ThemeContext);
   return (
     <ScrollView contentContainerStyle={themeStyles.container}>
-        <Text style={themeStyles.title}>Welcome, {user.name}</Text>
+        <Text style={themeStyles.title}>Add new item</Text>
     </ScrollView>
   )
 }
 
-export default HomeScreen;
+export default AddItemScreen;

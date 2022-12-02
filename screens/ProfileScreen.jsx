@@ -1,15 +1,18 @@
 import React from 'react';
-import { Text, ScrollView } from 'react-native';
+import { Text, ScrollView, Pressable } from 'react-native';
 import { useContext } from 'react';
 import { ThemeContext } from '../context/ThemeContext';
 
-function HomeScreen() {
+
+function ProfileScreen({ navigation }) {
     const { themeStyles, user } = useContext(ThemeContext);
   return (
     <ScrollView contentContainerStyle={themeStyles.container}>
-        <Text style={themeStyles.title}>Welcome, {user.name}</Text>
+      <Pressable onPress={() => { navigation.navigate('Discover') }}>
+        <Text style={themeStyles.title}>Profile</Text>
+      </Pressable>
     </ScrollView>
   )
 }
 
-export default HomeScreen;
+export default ProfileScreen;

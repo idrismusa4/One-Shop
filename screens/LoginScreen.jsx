@@ -4,7 +4,7 @@ import { ThemeContext } from '../context/ThemeContext';
 
 
 export default function LoginScreen({ navigation }) {
-  const { theme, toggleTheme, themeStyles } = useContext(ThemeContext);
+  const { themeStyles, setUser } = useContext(ThemeContext);
 
   const [userData, setUserData] = useState({});
   function updateUserData(value, name){
@@ -15,7 +15,8 @@ export default function LoginScreen({ navigation }) {
     // console.log(userData);
   }
 
-  function registerUser(){
+  function loginUser(){
+    setUser({ name: "Harrison" });
     console.log(userData);
   }
 
@@ -48,7 +49,7 @@ export default function LoginScreen({ navigation }) {
 
         <Pressable 
           style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#C0DD4D', width: 150, height: 50, paddingLeft: 20, paddingRight: 10, marginTop: 10, marginBottom: 20, marginLeft: 'auto', marginRight: 'auto', borderRadius: 30 }} 
-          onPress={() => { registerUser() }}
+          onPress={() => { loginUser() }}
           >
           <Text style={{ ...themeStyles.regularText, color: 'white'}}>Log In</Text>
         </Pressable>
