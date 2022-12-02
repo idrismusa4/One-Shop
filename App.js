@@ -9,7 +9,8 @@ import BottomTabNavigator from './components/BottomTabNavigator';
 
 export default function App() {
   const [currentTheme, setCurrentTheme] = useState('light');
-  const [user, setUser] = useState({ name: "Harrison" });
+  // const [user, setUser] = useState({ name: "Harrison" });
+  const [user, setUser] = useState();
   // const [loading, setLoading] = useState(false);
   function toggleTheme(){
     setCurrentTheme((currentTheme) => currentTheme === 'light' ? 'dark' : 'light');

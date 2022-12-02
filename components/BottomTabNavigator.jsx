@@ -67,11 +67,8 @@ export default function BottomTabNavigator(){
             textTransform: 'none'
           },
           tabBarStyle: {
-            height: 69,
+            height: 50,
             borderTopWidth: 2,
-          },
-          tabBarStyle: {
-            height: 50
           }
         })}
         >
