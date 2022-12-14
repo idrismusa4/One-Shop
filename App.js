@@ -9,21 +9,53 @@ import BottomTabNavigator from './components/BottomTabNavigator';
 
 export default function App() {
   const [currentTheme, setCurrentTheme] = useState('light');
-  const [user, setUser] = useState({ name: "Harrison" });
+  const [oneshopData, setOneshopData] = useState({});
+  const [user, setUser] = useState();
   // const [user, setUser] = useState();
   // const [loading, setLoading] = useState(false);
   function toggleTheme(){
     setCurrentTheme((currentTheme) => currentTheme === 'light' ? 'dark' : 'light');
   }
-  async function saveUser(userData){
-    await AsyncStorage.setItem('@user', JSON.stringify({...userData}));
-  }
-  async function getUser(){
-    let user = await AsyncStorage.getItem('@user');
-    setUser(JSON.parse(user));
-  }
+  
+  // async function saveUser(userData){
+  //   await AsyncStorage.setItem('@user', JSON.stringify({...userData}));
+  // }
+  // async function getUser(){
+  //   let user = await AsyncStorage.getItem('@user');
+  //   setUser(JSON.parse(user));
+  // }
   // getUser();
+  // console.log(oneshopData)
+  async function clearOneshopData(){
+    await AsyncStorage.removeItem('@oneshopData');
+  }
+  async function updateOneshopData(oneshopData){
+    // return console.log(oneshopData)
+    await AsyncStorage.setItem('@oneshopData', oneshopData);
+    loadOneshopData();
+  }
+  async function loadOneshopData(){
+    let oneshopData = await AsyncStorage.getItem('@oneshopData');
+    // setUser(JSON.parse(user));
+    if(typeof oneshopData !== 'object') {
+      setOneshopData(JSON.parse(oneshopData));
+      setUser(JSON.parse(oneshopData).user);
+      // console.log(oneshopData);
+      return;
+    }
+    updateOneshopData(JSON.stringify({
+      user: {name: 'Harrison'},
+      recentSearches: [],
+      currentTheme: 'light'
+    }));
+    // oneshopData = await AsyncStorage.getItem('@oneshopData');
+    // .then((res) => console.log(res))
+    // console.log(typeof oneshopData === 'object');
+
+  }
   useEffect(() => {
+    loadOneshopData();
+    // clearOneshopData();
     // saveUser({ name: "Harrison" });
     // getUser();
   }, []);
@@ -35,7 +67,9 @@ export default function App() {
         toggleTheme: toggleTheme,
         themeStyles: currentTheme === 'light' ? styles.lightStyles : styles.darkStyles,
         user: user,
-        setUser: setUser
+        setUser: setUser,
+        oneshopData: oneshopData,
+        updateOneshopData: updateOneshopData
       }}>
         <NavigationContainer>
           {

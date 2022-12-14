@@ -11,8 +11,8 @@ export const styles = {
         container: {
             flex: 1,
             backgroundColor: 'white',
-            paddingLeft: 20,
-            paddingRight: 20,
+            paddingLeft: 10,
+            paddingRight: 10,
             marginTop: StatusBar.currentHeight
         },
         title: {
