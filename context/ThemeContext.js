@@ -67,31 +67,32 @@ export const styles = {
             letterSpacing: 0.01,
             color: '#000000',
             mixBlendMode: 'normal',
-            textShadowColor: 'rgba(0, 0, 0, 0.5)',
+            textShadowColor: 'rgba(0, 0, 0, 0.7)',
             textShadowOffset: {
-                width: 0,
-                height: 2
+                width: 3,
+                height: 3
             },
             textShadowRadius: 10
         },
-        homeCategories: {
+        discoverCategories: {
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
-            marginTop: 20
+            marginTop: 5,
+            // backgroundColor: 'red',
+            height: 50
         },
-        homeCategory: {
+        discoverCategory: {
             display: 'flex',
             justifyContent: 'center',
-            padding: 10,
-            paddingLeft: 20,
-            paddingRight: 20,
+            paddingVertical: 10,
+            paddingHorizontal: 20,
             backgroundColor: '#C0DD4D',
             borderRadius: 50,
             color: 'white',
             fontWeight: 'bold',
             fontSize: 15,
-            marginRight: 5,
+            marginRight: 5
         }
     },
     darkStyles: {

@@ -63,7 +63,7 @@ export default function LoginScreen({ navigation }) {
       </View>
       
       <Pressable 
-        style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', backgroundColor: 'black', width: '85%', height: 50, paddingLeft: 20, paddingRight: 20, marginTop: 20, marginLeft: 'auto', marginRight: 'auto', borderRadius: 30 }} 
+        style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', backgroundColor: 'black', width: '85%', height: 35, paddingLeft: 20, paddingRight: 20, marginTop: 20, marginLeft: 'auto', marginRight: 'auto', borderRadius: 30 }} 
         onPress={() => { navigation.navigate('Register') }}
         >
         <Image source={require('../assets/apple.png')} style={{ width: 30, height: 30 }} alt='apple-logo' />
@@ -71,7 +71,7 @@ export default function LoginScreen({ navigation }) {
       </Pressable>
 
       <Pressable 
-        style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', backgroundColor: '#4050A6', width: '85%', height: 50, paddingLeft: 20, paddingRight: 20, marginTop: 20, marginLeft: 'auto', marginRight: 'auto', borderRadius: 30 }} 
+        style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', backgroundColor: '#4050A6', width: '85%', height: 35, paddingLeft: 20, paddingRight: 20, marginTop: 20, marginLeft: 'auto', marginRight: 'auto', borderRadius: 30 }} 
         onPress={() => { navigation.navigate('Register') }}
         >
         <Image source={require('../assets/google.png')} style={{ width: 30, height: 30 }} alt='apple-logo' />
@@ -79,8 +79,8 @@ export default function LoginScreen({ navigation }) {
       </Pressable>
 
       <TouchableOpacity 
-        style={{ width: '80%', fontSize: 15, textAlign: 'center', marginLeft: 'auto', marginRight: 'auto', marginTop: 50, display: 'flex', alignItems: 'center' }}>
-        <Text>
+        style={{ width: '80%', textAlign: 'center', marginLeft: 'auto', marginRight: 'auto', marginTop: 50, display: 'flex', alignItems: 'center' }}>
+        <Text style={{ fontSize: 18 }}>
           {"Dont' have an account? "}
           <Text onPress={() => { navigation.navigate('Register') }}> Sign Up</Text>
         </Text>
