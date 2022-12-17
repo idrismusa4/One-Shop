@@ -78,9 +78,12 @@ export const styles = {
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
-            marginTop: 5,
+            // marginTop: 5,
             // backgroundColor: 'red',
-            height: 50
+            // height: 50
+            // paddingVertical: 10
+            // marginTop: 15,
+            // marginBottom: 15
         },
         discoverCategory: {
             display: 'flex',
