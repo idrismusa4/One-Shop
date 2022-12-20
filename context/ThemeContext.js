@@ -58,7 +58,7 @@ export const styles = {
             paddingRight: 30,
             color: '#110101',
             backgroundColor: '#D9D9D9',
-            borderRadius: 26
+            borderRadius: 2
         },
         welcome: {
             fontWeight: 'bold',
@@ -90,7 +90,7 @@ export const styles = {
             justifyContent: 'center',
             paddingVertical: 10,
             paddingHorizontal: 20,
-            backgroundColor: '#C0DD4D',
+            backgroundColor: '#D9D9D9',
             borderRadius: 50,
             color: 'white',
             fontWeight: 'bold',

@@ -121,14 +121,14 @@ function DiscoverScreen() {
                 searchFocused ?
                   <Entypo name='circle-with-cross' color='black' size={20} onPress={() => { setSearchInput("") }} />
                   :
-                  <MaterialCommunityIcons name='microphone' color='black' size={20} />
+                  <MaterialCommunityIcons name='microphone' color='black' size={20} onPress={() => { alert("speak now...") }} />
               }
 
             </View>
 
             {
               !searchFocused &&
-              <TouchableOpacity style={{ width: 35, height: 35, borderRadius: 35, backgroundColor: searchFocused ? 'transparent' : '#C0DD4D', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onPress={() => { toggleCategories() }}>
+              <TouchableOpacity style={{ width: 35, height: 35, borderRadius: 35, backgroundColor: currentCategoryId ? '#C0DD4D' : '#D9D9D9', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onPress={() => { toggleCategories() }}>
                 <MaterialCommunityIcons name='tune-variant' color='white' size={20} />
               </TouchableOpacity>
             }
@@ -167,36 +167,48 @@ function DiscoverScreen() {
         <View style={{ marginTop: 40 }}></View>
         {
           !searchFocused &&
-          <View style={{ flex: 1, backgroundColor: 'white' }}>
+          <View style={{ backgroundColor: '' }}>
+
+
             <Animated.ScrollView
               contentContainerStyle={themeStyles.discoverCategories}
-              style={{ height: categoryHeight, backgroundColor: 'yellow' }}
+              style={{ height: categoryHeight, backgroundColor: '' }}
               horizontal={true}
               showsHorizontalScrollIndicator={false}
             >
               {
                 categories.map((category) => {
                   return (
-                    <Text key={category._id} style={currentCategoryId === category._id ? { ...themeStyles.discoverCategory, backgroundColor: 'black' } : themeStyles.discoverCategory} onPress={() => { setCurrentCategoryId(category._id), filterItems(category._id) }}>{category.name}</Text>
+                    <Text 
+                    key={category._id} 
+                    style={
+                      currentCategoryId === category._id ? 
+                      { ...themeStyles.discoverCategory, backgroundColor: '#C0DD4D' } : 
+                      themeStyles.discoverCategory
+                    } 
+                    onPress={() => { 
+                      setCurrentCategoryId(category._id), filterItems(category._id)
+                    }}>
+                      {category.name}
+                    </Text>
                   );
                 })
               }
             </Animated.ScrollView>
-            <ScrollView contentContainerStyle={{
-              backgroundColor: 'blue'
-            }}>
-              <Text>g</Text>
+
+
+            <ScrollView>
               {
-                // filteredItems.length > 0 ?
-                // filteredItems.map((item) => (
-                //   <Text key={item._id}>{item.name}</Text>
-                // ))
-                // :
-                // items.map((item) => (
-                //   <View key={item._id} style={{ backgroundColor: 'red', marginBottom: 2 }}>
-                //     <Text>{item.name}</Text>
-                //   </View>
-                // ))
+                filteredItems.length > 0 ?
+                filteredItems.map((item) => (
+                  <Text key={item._id}>{item.name}</Text>
+                ))
+                :
+                items.map((item) => (
+                  <View key={item._id} style={{  marginBottom: 2 }}>
+                    <Text>{item.name}</Text>
+                  </View>
+                ))
               }
             </ScrollView>
           </View>
