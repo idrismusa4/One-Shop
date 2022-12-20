@@ -1,0 +1,82 @@
+[
+    {
+        "_id": 1,
+        "name": "Microwave",
+        "category_id": 1,
+        "price": 200,
+        "owner_id": 1,
+        "max_days": 7
+    },
+    {
+        "_id": 2,
+        "name": "Nissan GTR",
+        "category_id": 2,
+        "price": 200,
+        "owner_id": 2,
+        "max_days": 7
+    },
+    {
+        "_id": 3,
+        "name": "Yamah",
+        "category_id": 3,
+        "price": 200,
+        "owner_id": 1,
+        "max_days": 7
+    },
+    {
+        "_id": 4,
+        "name": "Canoe",
+        "category_id": 4,
+        "price": 200,
+        "owner_id": 1,
+        "max_days": 7
+    },
+    {
+        "_id": 5,
+        "name": "Trouser",
+        "category_id": 5,
+        "price": 200,
+        "owner_id": 1,
+        "max_days": 7
+    },
+    {
+        "_id": 6,
+        "name": "4 bedroom",
+        "category_id": 6,
+        "price": 200,
+        "owner_id": 1,
+        "max_days": 7
+    },
+    {
+        "_id": 7,
+        "name": "iWatch",
+        "category_id": 7,
+        "price": 200,
+        "owner_id": 1,
+        "max_days": 7
+    },
+    {
+        "_id": 8,
+        "name": "Cello",
+        "category_id": 8,
+        "price": 200,
+        "owner_id": 1,
+        "max_days": 7
+    },
+    {
+        "_id": 9,
+        "name": "Football Boots",
+        "category_id": 9,
+        "price": 200,
+        "owner_id": 1,
+        "max_days": 7
+    },
+    {
+        "_id": 10,
+        "name": "Counsellor",
+        "category_id": 10,
+        "price": 200,
+        "owner_id": 1,
+        "max_days": 7
+    }
+]

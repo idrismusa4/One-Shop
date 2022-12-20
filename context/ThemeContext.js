@@ -95,7 +95,8 @@ export const styles = {
             color: 'white',
             fontWeight: 'bold',
             fontSize: 15,
-            marginRight: 5
+            marginRight: 5,
+            transition: '.3s ease'
         }
     },
     darkStyles: {
