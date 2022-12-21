@@ -5,7 +5,8 @@
         "category_id": 1,
         "price": 200,
         "owner_id": 1,
-        "max_days": 7
+        "max_days": 7,
+        "description": "Very cheap and affordable"
     },
     {
         "_id": 2,
@@ -13,7 +14,8 @@
         "category_id": 2,
         "price": 200,
         "owner_id": 2,
-        "max_days": 7
+        "max_days": 7,
+        "description": "Very cheap and affordable"
     },
     {
         "_id": 3,
@@ -21,7 +23,8 @@
         "category_id": 3,
         "price": 200,
         "owner_id": 1,
-        "max_days": 7
+        "max_days": 7,
+        "description": "Very cheap and affordable"
     },
     {
         "_id": 4,
@@ -29,7 +32,8 @@
         "category_id": 4,
         "price": 200,
         "owner_id": 1,
-        "max_days": 7
+        "max_days": 7,
+        "description": "Very cheap and affordable"
     },
     {
         "_id": 5,
@@ -37,7 +41,8 @@
         "category_id": 5,
         "price": 200,
         "owner_id": 1,
-        "max_days": 7
+        "max_days": 7,
+        "description": "Very cheap and affordable"
     },
     {
         "_id": 6,
@@ -45,7 +50,8 @@
         "category_id": 6,
         "price": 200,
         "owner_id": 1,
-        "max_days": 7
+        "max_days": 7,
+        "description": "Very cheap and affordable"
     },
     {
         "_id": 7,
@@ -53,7 +59,8 @@
         "category_id": 7,
         "price": 200,
         "owner_id": 1,
-        "max_days": 7
+        "max_days": 7,
+        "description": "Very cheap and affordable"
     },
     {
         "_id": 8,
@@ -61,7 +68,8 @@
         "category_id": 8,
         "price": 200,
         "owner_id": 1,
-        "max_days": 7
+        "max_days": 7,
+        "description": "Very cheap and affordable"
     },
     {
         "_id": 9,
@@ -69,7 +77,8 @@
         "category_id": 9,
         "price": 200,
         "owner_id": 1,
-        "max_days": 7
+        "max_days": 7,
+        "description": "Very cheap and affordable"
     },
     {
         "_id": 10,
@@ -77,6 +86,7 @@
         "category_id": 10,
         "price": 200,
         "owner_id": 1,
-        "max_days": 7
+        "max_days": 7,
+        "description": "Very cheap and affordable"
     }
 ]

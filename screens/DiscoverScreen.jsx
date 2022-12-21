@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Text, ScrollView, View, TextInput, Animated, TouchableOpacity, Pressable, Keyboard } from 'react-native';
 import { ThemeContext } from '../context/ThemeContext';
-import { EvilIcons, MaterialCommunityIcons, MaterialIcons, Entypo } from '@expo/vector-icons';
+import { EvilIcons, MaterialCommunityIcons, MaterialIcons, Entypo, Feather } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import categories from '../utils/category.json';
 import rentedItems from '../utils/items.json';
@@ -15,10 +15,45 @@ function DiscoverScreen() {
   const [loading, setLoading] = useState(false);
   const [items, setItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
-  // function handleSearch(){
-    
-  // }
-  function filterItems(categoryId){
+  const [searchSuggestions, setSearchSuggestions] = useState([]);
+  function handleSearch(searchInput){
+    let searchQuery = searchInput.trim();
+    setSearchInput(searchQuery);
+
+    if(!searchQuery) setSearchSuggestions([]);
+    let splitQuery = searchQuery.split(" ");
+    // return console.log(splitQuery);
+
+    let newSearchSuggestions = [];
+
+    items.forEach((item) => {
+      // let currentItem = { name: item.name, description: item.description };
+      let currentItem = { name: item.name };
+      let itemValues = Object.values(currentItem);
+      // return console.log(itemValues)
+      let itemQualifies = false;
+      let matchRate = 0;
+
+      splitQuery.forEach((query) => {
+        if(JSON.stringify(itemValues).toLowerCase().includes(query.toLowerCase())){
+          itemQualifies = true;
+          matchRate += 1;
+        }
+      });
+
+      if(itemQualifies){
+        let suggestedItem = { ...item, matchRate };
+        newSearchSuggestions.push(suggestedItem);
+      }
+
+    });
+    // console.log(newSearchSuggestions);
+    setSearchSuggestions(newSearchSuggestions);
+    // setFilteredItems((prevItems) => (
+    //   prevItems.filter()
+    // ));
+  }
+  function filterItems(categoryId) {
     let filteredItems = items;
     if (categoryId === "") {
       setFilteredItems(filteredItems);
@@ -34,7 +69,7 @@ function DiscoverScreen() {
     setItems(rentedItems);
     setLoading(false);
   }, []);
-  
+
 
   const categoryHeight = new Animated.Value(50);
   function toggleCategories() {
@@ -53,7 +88,7 @@ function DiscoverScreen() {
     let { recentSearches } = oneshopData;
 
     let searchInputExists = recentSearches.find((search) => search === searchInput);
-    if(searchInputExists) {
+    if (searchInputExists) {
       recentSearches = recentSearches.filter((oldSearch) => oldSearch !== searchInput);
     }
     recentSearches.unshift(searchInput);
@@ -112,7 +147,7 @@ function DiscoverScreen() {
                 onBlur={handleInputBlurred}
                 // onBlur={(e) => { e.preventDefault() }}
                 value={searchInput}
-                onChangeText={(text) => { setSearchInput(text) }}
+                onChangeText={(text) => { handleSearch(text) }}
                 autoFocus={true}
                 onSubmitEditing={() => { updateRecentSearches(searchInput) }}
               />
@@ -138,7 +173,27 @@ function DiscoverScreen() {
             <View>
               {
                 searchInput.length > 0 ?
-                  <Text>{`${searchInput} \n`.repeat(300)}</Text>
+                <React.Fragment>
+                  {
+                    searchSuggestions.length === 0 ?
+                    <View style={{ width: '100%', marginTop: 10, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      <MaterialIcons name='search-off' color='black' size={50} />
+                      <Text style={{ fontWeight: 'bold', fontSize: 20, marginLeft: 10 }}>no matches available</Text>
+                    </View>
+                    :
+                    searchSuggestions.map((search, index) => (
+                      <View key={index} style={{ height: 30, display: 'flex', flexDirection: 'row', alignItems: 'center', paddingVertical: 2, fontSize: 15, marginBottom: 10 }}>
+                        <EvilIcons name='search' color='black' size={20} />
+                        <TouchableOpacity style={{ width: '100%' }} onPress={() => { handleSuggestionClicked(search.name) }}>
+                          <Text style={{ fontSize: 15, marginLeft: 5 }}>{search.name}</Text>
+                        </TouchableOpacity>
+                        <Feather name='arrow-up-left' color='black' size={20} style={{ marginLeft: 'auto' }} onPress={() => {
+                          setSearchInput(search.name)
+                        }} />
+                      </View>
+                    ))
+                  }
+                </React.Fragment>
                   :
                   <React.Fragment>
                     <Text style={{ ...themeStyles.title, fontSize: 20 }}>
@@ -179,16 +234,16 @@ function DiscoverScreen() {
               {
                 categories.map((category) => {
                   return (
-                    <Text 
-                    key={category._id} 
-                    style={
-                      currentCategoryId === category._id ? 
-                      { ...themeStyles.discoverCategory, backgroundColor: '#C0DD4D' } : 
-                      themeStyles.discoverCategory
-                    } 
-                    onPress={() => { 
-                      setCurrentCategoryId(category._id), filterItems(category._id)
-                    }}>
+                    <Text
+                      key={category._id}
+                      style={
+                        currentCategoryId === category._id ?
+                          { ...themeStyles.discoverCategory, backgroundColor: '#C0DD4D' } :
+                          themeStyles.discoverCategory
+                      }
+                      onPress={() => {
+                        setCurrentCategoryId(category._id), filterItems(category._id)
+                      }}>
                       {category.name}
                     </Text>
                   );
@@ -200,15 +255,15 @@ function DiscoverScreen() {
             <ScrollView>
               {
                 filteredItems.length > 0 ?
-                filteredItems.map((item) => (
-                  <Text key={item._id}>{item.name}</Text>
-                ))
-                :
-                items.map((item) => (
-                  <View key={item._id} style={{  marginBottom: 2 }}>
-                    <Text>{item.name}</Text>
-                  </View>
-                ))
+                  filteredItems.map((item) => (
+                    <Text key={item._id}>{item.name}</Text>
+                  ))
+                  :
+                  items.map((item) => (
+                    <View key={item._id} style={{ marginBottom: 2 }}>
+                      <Text>{item.name}</Text>
+                    </View>
+                  ))
               }
             </ScrollView>
           </View>
