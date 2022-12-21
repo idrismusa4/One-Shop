@@ -4,43 +4,43 @@
         "name": "All"
     },
     {
-        "_id": 1,
+        "_id": "1",
         "name": "Appliances"
     },
     {
-        "_id": 2,
+        "_id": "2",
         "name": "Cars"
     },
     {
-        "_id": 3,
+        "_id": "3",
         "name": "Bikes"
     },
     {
-        "_id": 4,
+        "_id": "4",
         "name": "Boats"
     },
     {
-        "_id": 5,
+        "_id": "5",
         "name": "Clothing"
     },
     {
-        "_id": 6,
+        "_id": "6",
         "name": "Homes"
     },
     {
-        "_id": 7,
+        "_id": "7",
         "name": "Gadgets"
     },
     {
-        "_id": 8,
+        "_id": "8",
         "name": "Musical Instruments"
     },
     {
-        "_id": 9,
+        "_id": "9",
         "name": "Sports"
     },
     {
-        "_id": 10,
+        "_id": "10",
         "name": "Friendship"
     }
 ]

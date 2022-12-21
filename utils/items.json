@@ -1,89 +1,134 @@
 [
     {
-        "_id": 1,
+        "_id": "1",
         "name": "Microwave",
-        "category_id": 1,
+        "category_id": "1",
         "price": 200,
         "owner_id": 1,
         "max_days": 7,
         "description": "Very cheap and affordable"
     },
     {
-        "_id": 2,
+        "_id": "2",
         "name": "Nissan GTR",
-        "category_id": 2,
+        "category_id": "2",
         "price": 200,
         "owner_id": 2,
         "max_days": 7,
         "description": "Very cheap and affordable"
     },
     {
-        "_id": 3,
+        "_id": "3",
         "name": "Yamah",
-        "category_id": 3,
+        "category_id": "3",
         "price": 200,
         "owner_id": 1,
         "max_days": 7,
         "description": "Very cheap and affordable"
     },
     {
-        "_id": 4,
+        "_id": "4",
         "name": "Canoe",
-        "category_id": 4,
+        "category_id": "4",
         "price": 200,
         "owner_id": 1,
         "max_days": 7,
         "description": "Very cheap and affordable"
     },
     {
-        "_id": 5,
+        "_id": "5",
         "name": "Trouser",
-        "category_id": 5,
+        "category_id": "5",
         "price": 200,
         "owner_id": 1,
         "max_days": 7,
         "description": "Very cheap and affordable"
     },
     {
-        "_id": 6,
+        "_id": "6",
         "name": "4 bedroom",
-        "category_id": 6,
+        "category_id": "6",
         "price": 200,
         "owner_id": 1,
         "max_days": 7,
         "description": "Very cheap and affordable"
     },
     {
-        "_id": 7,
+        "_id": "7",
         "name": "iWatch",
-        "category_id": 7,
+        "category_id": "7",
         "price": 200,
         "owner_id": 1,
         "max_days": 7,
         "description": "Very cheap and affordable"
     },
     {
-        "_id": 8,
+        "_id": "8",
         "name": "Cello",
-        "category_id": 8,
+        "category_id": "8",
         "price": 200,
         "owner_id": 1,
         "max_days": 7,
         "description": "Very cheap and affordable"
     },
     {
-        "_id": 9,
+        "_id": "9",
         "name": "Football Boots",
-        "category_id": 9,
+        "category_id": "9",
         "price": 200,
         "owner_id": 1,
         "max_days": 7,
         "description": "Very cheap and affordable"
     },
     {
-        "_id": 10,
+        "_id": "10",
         "name": "Counsellor",
-        "category_id": 10,
+        "category_id": "10",
+        "price": 200,
+        "owner_id": 1,
+        "max_days": 7,
+        "description": "Very cheap and affordable"
+    },
+    {
+        "_id": "11",
+        "name": "iPhone 14 pro max",
+        "category_id": "7",
+        "price": 200,
+        "owner_id": 1,
+        "max_days": 7,
+        "description": "Very cheap and affordable"
+    },
+    {
+        "_id": "12",
+        "name": "Tesla",
+        "category_id": "2",
+        "price": 200,
+        "owner_id": 1,
+        "max_days": 7,
+        "description": "Very cheap and affordable"
+    },
+    {
+        "_id": "13",
+        "name": "5 bedroom Duplex",
+        "category_id": "6",
+        "price": 200,
+        "owner_id": 1,
+        "max_days": 7,
+        "description": "Very cheap and affordable"
+    },
+    {
+        "_id": "14",
+        "name": "Piano",
+        "category_id": "8",
+        "price": 200,
+        "owner_id": 1,
+        "max_days": 7,
+        "description": "Very cheap and affordable"
+    },
+    {
+        "_id": "15",
+        "name": "Basketball",
+        "category_id": "9",
         "price": 200,
         "owner_id": 1,
         "max_days": 7,

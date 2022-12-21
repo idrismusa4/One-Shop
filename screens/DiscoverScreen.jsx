@@ -14,9 +14,10 @@ function DiscoverScreen() {
   const [currentCategoryId, setCurrentCategoryId] = useState("");
   const [loading, setLoading] = useState(false);
   const [items, setItems] = useState([]);
+  const [items2, setItems2] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
   const [searchSuggestions, setSearchSuggestions] = useState([]);
-  function handleSearch(searchInput){
+  function handleSearchSuggestions(searchInput){
     let searchQuery = searchInput.trim();
     setSearchInput(searchQuery);
 
@@ -54,14 +55,18 @@ function DiscoverScreen() {
     // ));
   }
   function filterItems(categoryId) {
-    let filteredItems = items;
+    let filteredItems = searchSuggestions.length === 0 ? items : searchSuggestions;
+    // console.log(filteredItems)
+    // console.log(typeof categoryId)
     if (categoryId === "") {
       setFilteredItems(filteredItems);
       return;
     }
-    filteredItems = items.filter((item) => (
-      item.category_id === categoryId
-    ));
+    filteredItems = filteredItems.filter((item) => (
+      item.category_id.includes(categoryId)
+    ))
+    // console.log(filteredItems)
+
     setFilteredItems(filteredItems);
   }
   useEffect(() => {
@@ -82,7 +87,7 @@ function DiscoverScreen() {
 
   async function updateRecentSearches(searchInput) {
     if (searchInput.trim().length === 0) return;
-
+    filterItems(currentCategoryId);
     let oneshopData = await AsyncStorage.getItem('@oneshopData');
     oneshopData = JSON.parse(oneshopData);
     let { recentSearches } = oneshopData;
@@ -119,8 +124,12 @@ function DiscoverScreen() {
     setSearchFocused(false);
   }
 
-  function handleSuggestionClicked(suggestion) {
+  function handleSubmit(suggestion) {
     setSearchInput(suggestion);
+    updateRecentSearches(suggestion);
+    setItems2(searchSuggestions);
+    // return console.log(items2)
+    filterItems(currentCategoryId);
     Keyboard.dismiss();
   }
 
@@ -142,14 +151,14 @@ function DiscoverScreen() {
 
               <TextInput
                 style={{ width: '80%', height: '100%' }}
-                placeholder='Tesla'
+                placeholder={items.length === 0 ? "" : items[Math.floor(Math.random() * items.length)].name}
                 onFocus={handleInputFocused}
                 onBlur={handleInputBlurred}
                 // onBlur={(e) => { e.preventDefault() }}
                 value={searchInput}
-                onChangeText={(text) => { handleSearch(text) }}
+                onChangeText={(text) => { handleSearchSuggestions(text) }}
                 autoFocus={true}
-                onSubmitEditing={() => { updateRecentSearches(searchInput) }}
+                onSubmitEditing={() => { handleSubmit(searchInput) }}
               />
 
               {
@@ -184,7 +193,7 @@ function DiscoverScreen() {
                     searchSuggestions.map((search, index) => (
                       <View key={index} style={{ height: 30, display: 'flex', flexDirection: 'row', alignItems: 'center', paddingVertical: 2, fontSize: 15, marginBottom: 10 }}>
                         <EvilIcons name='search' color='black' size={20} />
-                        <TouchableOpacity style={{ width: '100%' }} onPress={() => { handleSuggestionClicked(search.name) }}>
+                        <TouchableOpacity style={{ width: '100%' }} onPress={() => { handleSubmit(search.name) }}>
                           <Text style={{ fontSize: 15, marginLeft: 5 }}>{search.name}</Text>
                         </TouchableOpacity>
                         <Feather name='arrow-up-left' color='black' size={20} style={{ marginLeft: 'auto' }} onPress={() => {
@@ -203,7 +212,7 @@ function DiscoverScreen() {
                       oneshopData.recentSearches.map((search, index) => (
                         <View key={index} style={{ height: 30, display: 'flex', flexDirection: 'row', alignItems: 'center', paddingVertical: 2, fontSize: 15, marginBottom: 10 }}>
                           <EvilIcons name='clock' color='black' size={20} />
-                          <TouchableOpacity style={{ width: '100%' }} onPress={() => { handleSuggestionClicked(search) }}>
+                          <TouchableOpacity style={{ width: '100%' }} onPress={() => { handleSubmit(search) }}>
                             <Text style={{ fontSize: 15, marginLeft: 5 }}>{search}</Text>
                           </TouchableOpacity>
                           <Entypo name='cross' color='black' size={20} style={{ marginLeft: 'auto' }} onPress={() => {
@@ -254,16 +263,20 @@ function DiscoverScreen() {
 
             <ScrollView>
               {
-                filteredItems.length > 0 ?
-                  filteredItems.map((item) => (
-                    <Text key={item._id}>{item.name}</Text>
-                  ))
-                  :
-                  items.map((item) => (
-                    <View key={item._id} style={{ marginBottom: 2 }}>
-                      <Text>{item.name}</Text>
-                    </View>
-                  ))
+                filteredItems.length === 0 ?
+                <Text>No items match your search in this category. Please consider clearing your filters.</Text>
+                :
+                filteredItems.map((item) => (
+                  <View key={item._id} style={{ marginBottom: 2 }}>
+                    <Text>{item.name}</Text>
+                  </View>
+                ))
+                // :
+                // items.map((item) => (
+                //   <View key={item._id} style={{ marginBottom: 2 }}>
+                //     <Text>{item.name}</Text>
+                //   </View>
+                // ))
               }
             </ScrollView>
           </View>
