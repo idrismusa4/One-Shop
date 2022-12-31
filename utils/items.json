@@ -4,7 +4,7 @@
         "name": "Microwave",
         "category_id": "1",
         "price": 200,
-        "owner_id": 1,
+        "owner_id": "1",
         "max_days": 7,
         "description": "Very cheap and affordable"
     },
@@ -22,7 +22,7 @@
         "name": "Yamah",
         "category_id": "3",
         "price": 200,
-        "owner_id": 1,
+        "owner_id": "1",
         "max_days": 7,
         "description": "Very cheap and affordable"
     },
@@ -31,7 +31,7 @@
         "name": "Canoe",
         "category_id": "4",
         "price": 200,
-        "owner_id": 1,
+        "owner_id": "1",
         "max_days": 7,
         "description": "Very cheap and affordable"
     },
@@ -40,7 +40,7 @@
         "name": "Trouser",
         "category_id": "5",
         "price": 200,
-        "owner_id": 1,
+        "owner_id": "1",
         "max_days": 7,
         "description": "Very cheap and affordable"
     },
@@ -49,7 +49,7 @@
         "name": "4 bedroom",
         "category_id": "6",
         "price": 200,
-        "owner_id": 1,
+        "owner_id": "1",
         "max_days": 7,
         "description": "Very cheap and affordable"
     },
@@ -58,7 +58,7 @@
         "name": "iWatch",
         "category_id": "7",
         "price": 200,
-        "owner_id": 1,
+        "owner_id": "1",
         "max_days": 7,
         "description": "Very cheap and affordable"
     },
@@ -67,7 +67,7 @@
         "name": "Cello",
         "category_id": "8",
         "price": 200,
-        "owner_id": 1,
+        "owner_id": "1",
         "max_days": 7,
         "description": "Very cheap and affordable"
     },
@@ -76,7 +76,7 @@
         "name": "Football Boots",
         "category_id": "9",
         "price": 200,
-        "owner_id": 1,
+        "owner_id": "1",
         "max_days": 7,
         "description": "Very cheap and affordable"
     },
@@ -85,7 +85,7 @@
         "name": "Counsellor",
         "category_id": "10",
         "price": 200,
-        "owner_id": 1,
+        "owner_id": "1",
         "max_days": 7,
         "description": "Very cheap and affordable"
     },
@@ -94,7 +94,7 @@
         "name": "iPhone 14 pro max",
         "category_id": "7",
         "price": 200,
-        "owner_id": 1,
+        "owner_id": "1",
         "max_days": 7,
         "description": "Very cheap and affordable"
     },
@@ -103,7 +103,7 @@
         "name": "Tesla",
         "category_id": "2",
         "price": 200,
-        "owner_id": 1,
+        "owner_id": "1",
         "max_days": 7,
         "description": "Very cheap and affordable"
     },
@@ -112,7 +112,7 @@
         "name": "5 bedroom Duplex",
         "category_id": "6",
         "price": 200,
-        "owner_id": 1,
+        "owner_id": "1",
         "max_days": 7,
         "description": "Very cheap and affordable"
     },
@@ -121,7 +121,7 @@
         "name": "Piano",
         "category_id": "8",
         "price": 200,
-        "owner_id": 1,
+        "owner_id": "1",
         "max_days": 7,
         "description": "Very cheap and affordable"
     },
@@ -130,7 +130,7 @@
         "name": "Basketball",
         "category_id": "9",
         "price": 200,
-        "owner_id": 1,
+        "owner_id": "1",
         "max_days": 7,
         "description": "Very cheap and affordable"
     }

@@ -69,7 +69,9 @@ export default function App() {
         user: user,
         setUser: setUser,
         oneshopData: oneshopData,
-        updateOneshopData: updateOneshopData
+        updateOneshopData: updateOneshopData,
+        API_SERVER_URL: "http://192.168.43.240:5000"
+        // API_SERVER_URL: "http://192.168.82.165:5000"
       }}>
         <NavigationContainer>
           {

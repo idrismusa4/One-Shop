@@ -3,30 +3,33 @@ import { Text, ScrollView, View, TextInput, Animated, TouchableOpacity, Pressabl
 import { ThemeContext } from '../context/ThemeContext';
 import { EvilIcons, MaterialCommunityIcons, MaterialIcons, Entypo, Feather } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import categories from '../utils/category.json';
-import rentedItems from '../utils/items.json';
+// import categories from '../utils/category.json';
+// import rentedItems from '../utils/items.json';
+import axios from 'axios';
 
 function DiscoverScreen() {
   const [searchFocused, setSearchFocused] = useState(true);
-  const [searchInput, setSearchInput] = useState(true);
-  const { themeStyles, oneshopData, updateOneshopData } = useContext(ThemeContext);
-  // const categories = ['Appliances', 'Cars', 'Bikes', 'Boats', 'Clothing', 'Homes', 'Gadgets', 'Musical Instruments', 'Sports', 'Friendship'];
+  const [searchInput, setSearchInput] = useState("");
+  const [categories, setCategories] = useState([]);
+  const { themeStyles, oneshopData, updateOneshopData, API_SERVER_URL } = useContext(ThemeContext);
   const [currentCategoryId, setCurrentCategoryId] = useState("");
   const [loading, setLoading] = useState(false);
   const [items, setItems] = useState([]);
-  const [items2, setItems2] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
   const [searchSuggestions, setSearchSuggestions] = useState([]);
-  function handleSearchSuggestions(searchInput){
+  function handleSearchSuggestions(searchInput, items){
+    // let items = main_array ? main_array : items;
+    // return console.log(items.length);
+    // console.log(items)
+    setSearchInput(searchInput);
     let searchQuery = searchInput.trim();
-    setSearchInput(searchQuery);
-
-    if(!searchQuery) setSearchSuggestions([]);
+    
+    if(!searchQuery) return setSearchSuggestions([]);
     let splitQuery = searchQuery.split(" ");
     // return console.log(splitQuery);
-
+    
     let newSearchSuggestions = [];
-
+    
     items.forEach((item) => {
       // let currentItem = { name: item.name, description: item.description };
       let currentItem = { name: item.name };
@@ -54,25 +57,62 @@ function DiscoverScreen() {
     //   prevItems.filter()
     // ));
   }
-  function filterItems(categoryId) {
-    let filteredItems = searchSuggestions.length === 0 ? items : searchSuggestions;
-    // console.log(filteredItems)
-    // console.log(typeof categoryId)
-    if (categoryId === "") {
-      setFilteredItems(filteredItems);
+  async function filterItems(categoryId) {
+    // const all = categories.find((category) => (category.name.toLowerCase() === "all"));
+    if(categoryId === ''){
+      let res = await axios.get(`${API_SERVER_URL}/api/item/all`);
+      let { allItems } = res.data;  
+      setItems(allItems);
+      handleSearchSuggestions(searchInput, allItems);
       return;
     }
-    filteredItems = filteredItems.filter((item) => (
-      item.category_id.includes(categoryId)
-    ))
+    let res = await axios.get(`${API_SERVER_URL}/api/item/category?categoryId=${categoryId}`)
+    const { categoryItems } = res.data;
+    // console.log(categoryItems);
+    setItems(categoryItems);
+    handleSearchSuggestions(searchInput, categoryItems);
+    // let filteredItems = searchSuggestions.length === 0 ? items : searchSuggestions;
+    // console.log(filteredItems)
+    // console.log(typeof categoryId)
+    // if (categoryId === "") {
+    //   setFilteredItems(filteredItems);
+    //   return;
+    // }
+    // filteredItems = filteredItems.filter((item) => (
+    //   item.category_id.includes(categoryId)
+    // ))
     // console.log(filteredItems)
 
-    setFilteredItems(filteredItems);
+    // setFilteredItems(filteredItems);
+  }
+  async function fetchCategories(){
+    try{
+      // console.log(API_SERVER_URL);
+      const res = await axios.get(`${API_SERVER_URL}/api/category/all`);
+      const { categories } = res.data;
+      setCategories(categories);
+    }catch(error){
+      console.log(error);
+    }
+  }
+  async function fetchItems(){
+    try{
+      let res = await axios.get(`${API_SERVER_URL}/api/item/all`);
+      let { allItems } = res.data;  
+      setItems(allItems);
+    }catch(error){
+      console.log(error);
+    }
   }
   useEffect(() => {
+
     setLoading(true);
-    setItems(rentedItems);
+    // setFilteredItems(rentedItems);
     setLoading(false);
+    
+    fetchCategories();
+    fetchItems();
+
   }, []);
 
 
@@ -117,6 +157,7 @@ function DiscoverScreen() {
 
   function handleInputFocused(event) {
     setSearchFocused(true);
+    console.log(searchSuggestions)
   }
 
   function handleInputBlurred(event) {
@@ -125,11 +166,10 @@ function DiscoverScreen() {
   }
 
   function handleSubmit(suggestion) {
+    
     setSearchInput(suggestion);
+    handleSearchSuggestions(suggestion, items);
     updateRecentSearches(suggestion);
-    setItems2(searchSuggestions);
-    // return console.log(items2)
-    filterItems(currentCategoryId);
     Keyboard.dismiss();
   }
 
@@ -156,7 +196,7 @@ function DiscoverScreen() {
                 onBlur={handleInputBlurred}
                 // onBlur={(e) => { e.preventDefault() }}
                 value={searchInput}
-                onChangeText={(text) => { handleSearchSuggestions(text) }}
+                onChangeText={(text) => { handleSearchSuggestions(text, items) }}
                 autoFocus={true}
                 onSubmitEditing={() => { handleSubmit(searchInput) }}
               />
@@ -187,7 +227,7 @@ function DiscoverScreen() {
                     searchSuggestions.length === 0 ?
                     <View style={{ width: '100%', marginTop: 10, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                       <MaterialIcons name='search-off' color='black' size={50} />
-                      <Text style={{ fontWeight: 'bold', fontSize: 20, marginLeft: 10 }}>no matches available</Text>
+                      <Text style={{ fontWeight: 'bold', fontSize: 12, marginLeft: 10 }}>no matches available, please consider clearing your filters</Text>
                     </View>
                     :
                     searchSuggestions.map((search, index) => (
@@ -240,6 +280,17 @@ function DiscoverScreen() {
               horizontal={true}
               showsHorizontalScrollIndicator={false}
             >
+              <Text
+                style={
+                  currentCategoryId === '' ?
+                    { ...themeStyles.discoverCategory, backgroundColor: '#C0DD4D' } :
+                    themeStyles.discoverCategory
+                }
+                onPress={() => {
+                  setCurrentCategoryId(''), filterItems('')
+                }}>
+                {"All"}
+              </Text>
               {
                 categories.map((category) => {
                   return (
@@ -263,10 +314,24 @@ function DiscoverScreen() {
 
             <ScrollView>
               {
-                filteredItems.length === 0 ?
-                <Text>No items match your search in this category. Please consider clearing your filters.</Text>
+                searchInput ?
+                <React.Fragment>
+                  {
+                    searchSuggestions.length === 0 ?
+                    <View style={{ width: '100%', marginTop: 10, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      <MaterialIcons name='search-off' color='black' size={50} />
+                      <Text style={{ fontWeight: 'bold', fontSize: 12, marginLeft: 10 }}>no matches available, please consider clearing your filters</Text>
+                    </View>
+                    :
+                    searchSuggestions.map((item) => (
+                      <View key={item._id} style={{ marginBottom: 2 }}>
+                        <Text>{item.name}</Text>
+                      </View>
+                    ))
+                  }
+                </React.Fragment>
                 :
-                filteredItems.map((item) => (
+                items.map((item) => (
                   <View key={item._id} style={{ marginBottom: 2 }}>
                     <Text>{item.name}</Text>
                   </View>
