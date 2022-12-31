@@ -98,11 +98,23 @@ export const styles = {
             marginRight: 5,
             transition: '.3s ease'
         },
-        itemContainer: {
+        itemOuterContainer: {
             height: 100, 
             marginBottom: 2, 
-            backgroundColor: 'red', 
+            backgroundColor: '#656060', 
             borderRadius: 20, 
+            paddingRight: 30
+            // display: 'flex',
+            // flexDirection: 'row',
+            // alignItems: 'center',
+            // justifyContent: 'space-between'
+        },
+        itemInnerContainer: {
+            height: 100, 
+            marginBottom: 2, 
+            backgroundColor: '#b3c3c4', 
+            borderTopLeftRadius: 20, 
+            borderBottomLeftRadius: 20, 
             paddingVertical: 10,
             paddingHorizontal: 10,
             display: 'flex',
@@ -113,8 +125,17 @@ export const styles = {
         itemProps: {
             height: '100%', 
             width: '75%', 
-            backgroundColor: 'blue', 
+            // backgroundColor: 'blue', 
             display: 'flex',
+            justifyContent: 'space-between',
+            paddingLeft: 20
+        },
+        customRatingBarStyle: {
+            width: 50,
+            // height: 100,
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
             justifyContent: 'space-between'
         }
     },

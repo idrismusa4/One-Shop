@@ -6,6 +6,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // import categories from '../utils/category.json';
 // import rentedItems from '../utils/items.json';
 import axios from 'axios';
+import { Grid } from 'react-native-animated-spinkit';
+import Item from '../components/Item';
 
 function DiscoverScreen() {
   const [searchFocused, setSearchFocused] = useState(true);
@@ -17,6 +19,7 @@ function DiscoverScreen() {
   const [items, setItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
   const [searchSuggestions, setSearchSuggestions] = useState([]);
+  let limit = 15;
   function handleSearchSuggestions(searchInput, items){
     // let items = main_array ? main_array : items;
     // return console.log(items.length);
@@ -58,19 +61,22 @@ function DiscoverScreen() {
     // ));
   }
   async function filterItems(categoryId) {
+    // return console.log(categoryId);
+    setLoading(true);
     // const all = categories.find((category) => (category.name.toLowerCase() === "all"));
     if(categoryId === ''){
-      let res = await axios.get(`${API_SERVER_URL}/api/item/all`);
+      let res = await axios.get(`${API_SERVER_URL}/api/item/all?limit=${limit}`);
       let { allItems } = res.data;  
       setItems(allItems);
       handleSearchSuggestions(searchInput, allItems);
-      return;
+    }else{
+      let res = await axios.get(`${API_SERVER_URL}/api/item/category?categoryId=${categoryId}&limit=${limit}`)
+      const { categoryItems } = res.data;
+      // console.log(categoryItems);
+      setItems(categoryItems);
+      handleSearchSuggestions(searchInput, categoryItems);
     }
-    let res = await axios.get(`${API_SERVER_URL}/api/item/category?categoryId=${categoryId}`)
-    const { categoryItems } = res.data;
-    // console.log(categoryItems);
-    setItems(categoryItems);
-    handleSearchSuggestions(searchInput, categoryItems);
+    setLoading(false);
     // let filteredItems = searchSuggestions.length === 0 ? items : searchSuggestions;
     // console.log(filteredItems)
     // console.log(typeof categoryId)
@@ -96,19 +102,20 @@ function DiscoverScreen() {
     }
   }
   async function fetchItems(){
+    setLoading(true);
     try{
-      let res = await axios.get(`${API_SERVER_URL}/api/item/all`);
+      let res = await axios.get(`${API_SERVER_URL}/api/item/all?limit=${limit}`);
       let { allItems } = res.data;  
       setItems(allItems);
     }catch(error){
       console.log(error);
     }
+    setLoading(false);
   }
   useEffect(() => {
 
-    setLoading(true);
+    // console.log('d')
     // setFilteredItems(rentedItems);
-    setLoading(false);
     
     fetchCategories();
     fetchItems();
@@ -157,7 +164,6 @@ function DiscoverScreen() {
 
   function handleInputFocused(event) {
     setSearchFocused(true);
-    console.log(searchSuggestions)
   }
 
   function handleInputBlurred(event) {
@@ -172,6 +178,23 @@ function DiscoverScreen() {
     updateRecentSearches(suggestion);
     Keyboard.dismiss();
   }
+
+  // function customRating(defaultRating) {
+  //   const maxRating = [1, 2, 3, 4, 5];
+  //   return(
+  //     <View style={themeStyles.customRatingBarStyle}>
+  //       {
+  //         maxRating.map((item, index) => {
+  //           return (
+  //             item <= defaultRating
+  //               ? <MaterialIcons key={index} name='star' size={20} color='yellow' />
+  //               : <MaterialIcons key={index} name='star-border' size={20} color='yellow' />
+  //           );
+  //         })
+  //       }
+  //     </View>
+  //   );
+  // }
 
   return (
     <View style={themeStyles.container}>
@@ -311,48 +334,56 @@ function DiscoverScreen() {
               }
             </Animated.ScrollView>
 
-
-            <ScrollView>
               {
-                searchInput ?
-                <React.Fragment>
-                  {
-                    searchSuggestions.length === 0 ?
-                    <View style={{ width: '100%', marginTop: 10, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                      <MaterialIcons name='search-off' color='black' size={50} />
-                      <Text style={{ fontWeight: 'bold', fontSize: 12, marginLeft: 10 }}>No items match your search in this category. Please consider clearing your filters.</Text>
-                    </View>
-                    :
-                    searchSuggestions.map((item) => (
-                      <View key={item._id} style={{ marginBottom: 2 }}>
-                        <Text>{item.name}</Text>
-                      </View>
-                    ))
-                  }
-                </React.Fragment>
+                loading ? 
+                <View style={{backgroundColor: 'transparent', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                  <Grid size={50} color='#C0DD4D' />
+                </View>
                 :
-                items.map((item) => (
-                  <View key={item._id} style={themeStyles.itemContainer}>
-                    <Image source={{ uri: `${API_SERVER_URL}/api/static/images/${item.thumbnail}` }} style={{ height: 80, width: 80, borderRadius: 100 }} alt={item.name} />
-                    <View style={themeStyles.itemProps}>
-                      <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{item.name}</Text>
-                      <Text>{`$${item.price} / day`}</Text>
-                      <Text>{`$${item.price*7} / week`}</Text>
-                    </View>
-                  </View>
-                ))
-                // :
-                // items.map((item) => (
-                //   <View key={item._id} style={{ marginBottom: 2 }}>
-                //     <Text>{item.name}</Text>
-                //   </View>
-                // ))
+                <ScrollView>
+                  
+                {
+                  searchInput ?
+                  <React.Fragment>
+                    {
+                      searchSuggestions.length === 0 ?
+                      <View style={{ width: '100%', marginTop: 10, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <MaterialIcons name='search-off' color='black' size={50} />
+                        <Text style={{ fontWeight: 'bold', fontSize: 12, marginLeft: 10 }}>No items match your search in this category. Please consider clearing your filters.</Text>
+                      </View>
+                      :
+                      <View>
+                        { searchSuggestions.map((item) => (
+                          <Item key={item._id} item={item} />
+                        )) }
+                        <Text onPress={()=>{ limit += 10, filterItems(currentCategoryId) }}>More</Text>
+                      </View>
+                    }
+                  </React.Fragment>
+                  :
+                  <React.Fragment>
+                    {
+                      items.length === 0 ?
+                      <View style={{ width: '100%', marginTop: 10, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <MaterialIcons name='search-off' color='black' size={50} />
+                        <Text style={{ fontWeight: 'bold', fontSize: 12, marginLeft: 10 }}>No items match your search in this category. Please consider clearing your filters.</Text>
+                      </View>
+                      :
+                      <View>
+                        { items.map((item) => (
+                          <Item key={item._id} item={item} />
+                        )) }
+                        <Text onPress={()=>{ limit += 10, filterItems(currentCategoryId) }}>More</Text>
+                      </View>
+                    }
+                </React.Fragment>
               }
-            </ScrollView>
+              </ScrollView>
+            }
           </View>
         }
       </ScrollView>
-    </View>
+        </View>
   )
 }
 
