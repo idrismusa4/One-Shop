@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Text, ScrollView, View, TextInput, Animated, TouchableOpacity, Pressable, Keyboard } from 'react-native';
+import { Text, ScrollView, View, TextInput, Animated, TouchableOpacity, Pressable, Keyboard, Image } from 'react-native';
 import { ThemeContext } from '../context/ThemeContext';
 import { EvilIcons, MaterialCommunityIcons, MaterialIcons, Entypo, Feather } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -227,7 +227,7 @@ function DiscoverScreen() {
                     searchSuggestions.length === 0 ?
                     <View style={{ width: '100%', marginTop: 10, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                       <MaterialIcons name='search-off' color='black' size={50} />
-                      <Text style={{ fontWeight: 'bold', fontSize: 12, marginLeft: 10 }}>no matches available, please consider clearing your filters</Text>
+                      <Text style={{ fontWeight: 'bold', fontSize: 12, marginLeft: 10 }}>No items match your search in this category. Please consider clearing your filters.</Text>
                     </View>
                     :
                     searchSuggestions.map((search, index) => (
@@ -303,7 +303,7 @@ function DiscoverScreen() {
                       }
                       onPress={() => {
                         setCurrentCategoryId(category._id), filterItems(category._id)
-                      }}>
+                    }}>
                       {category.name}
                     </Text>
                   );
@@ -320,7 +320,7 @@ function DiscoverScreen() {
                     searchSuggestions.length === 0 ?
                     <View style={{ width: '100%', marginTop: 10, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                       <MaterialIcons name='search-off' color='black' size={50} />
-                      <Text style={{ fontWeight: 'bold', fontSize: 12, marginLeft: 10 }}>no matches available, please consider clearing your filters</Text>
+                      <Text style={{ fontWeight: 'bold', fontSize: 12, marginLeft: 10 }}>No items match your search in this category. Please consider clearing your filters.</Text>
                     </View>
                     :
                     searchSuggestions.map((item) => (
@@ -332,8 +332,13 @@ function DiscoverScreen() {
                 </React.Fragment>
                 :
                 items.map((item) => (
-                  <View key={item._id} style={{ marginBottom: 2 }}>
-                    <Text>{item.name}</Text>
+                  <View key={item._id} style={themeStyles.itemContainer}>
+                    <Image source={{ uri: `${API_SERVER_URL}/api/static/images/${item.thumbnail}` }} style={{ height: 80, width: 80, borderRadius: 100 }} alt={item.name} />
+                    <View style={themeStyles.itemProps}>
+                      <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{item.name}</Text>
+                      <Text>{`$${item.price} / day`}</Text>
+                      <Text>{`$${item.price*7} / week`}</Text>
+                    </View>
                   </View>
                 ))
                 // :

@@ -97,6 +97,25 @@ export const styles = {
             fontSize: 15,
             marginRight: 5,
             transition: '.3s ease'
+        },
+        itemContainer: {
+            height: 100, 
+            marginBottom: 2, 
+            backgroundColor: 'red', 
+            borderRadius: 20, 
+            paddingVertical: 10,
+            paddingHorizontal: 10,
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between'
+        },
+        itemProps: {
+            height: '100%', 
+            width: '75%', 
+            backgroundColor: 'blue', 
+            display: 'flex',
+            justifyContent: 'space-between'
         }
     },
     darkStyles: {
