@@ -8,7 +8,6 @@
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/logo.png",
-      
       "backgroundColor": "white"
     },
     "updates": {
@@ -24,10 +23,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.harry654.oneshop"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "4e9f2d6b-3dca-40a2-9467-7a80d3346908"
+      }
     }
   }
 }
