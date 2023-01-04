@@ -137,6 +137,25 @@ export const styles = {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between'
+        },
+        speechBoxOuter: {
+            position: "absolute",
+            height: '100%',
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 3,
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        },
+        speechBoxInner: {
+            height: 300,
+            width: 300,
+            backgroundColor: 'cyan',
+            borderRadius: 20,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
         }
     },
     darkStyles: {

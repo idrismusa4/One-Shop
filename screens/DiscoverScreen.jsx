@@ -1,22 +1,76 @@
 import { useState, useContext, useEffect, Fragment } from 'react';
-import { Text, ScrollView, View, TextInput, Animated, TouchableOpacity, Keyboard } from 'react-native';
+import { Text, ScrollView, View, TextInput, Animated, TouchableOpacity, Keyboard, Pressable } from 'react-native';
 import { ThemeContext } from '../context/ThemeContext';
 import { EvilIcons, MaterialCommunityIcons, MaterialIcons, Entypo, Feather } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import { Grid } from 'react-native-animated-spinkit';
+import { Grid, Bounce } from 'react-native-animated-spinkit';
 import Item from '../components/Item';
+import Voice from '@react-native-voice/voice';
 
 function DiscoverScreen() {
   const [searchFocused, setSearchFocused] = useState(true);
   const [searchInput, setSearchInput] = useState("");
   const [categories, setCategories] = useState([]);
-  const { themeStyles, oneshopData, updateOneshopData, API_SERVER_URL } = useContext(ThemeContext);
+  const { themeStyles, oneshopData, updateOneshopData, API_SERVER_URL, theme } = useContext(ThemeContext);
   const [currentCategoryId, setCurrentCategoryId] = useState('all');
   const [loading, setLoading] = useState(false);
   const [items, setItems] = useState([]);
   const categoryHeight = new Animated.Value(50);
+  const [speechStarted, setSpeechStarted] = useState(false  );
+  const [results, setResults] = useState([]);
+  // console.log(oneshopData)
+
+  
   let limit = 15;
+
+  useEffect(() => {
+    fetchCategories();
+    fetchItems();
+
+    Voice.onSpeechResults = speechResults;
+    Voice.onSpeechError = speechError;
+    Voice.onSpeechEnd = speechEnd;
+
+    return function() {
+      Voice.destroy()
+      .then( Voice.removeAllListeners() )
+    }
+
+  }, []);
+
+  function speechError (error) {
+    console.log(error);
+  }
+
+  function speechResults(result) {
+    setResults(result.value);
+    setSearchInput(result.value[0]);
+    filterItems(result.value[0], 'all');
+  }
+
+  function speechEnd() {
+    setSpeechStarted(false);
+  }
+
+  async function speechToTextStarted() {
+    try{
+      await Voice.start('en-US');
+      setSpeechStarted(true);
+      
+    }catch(error){
+      console.log(error)
+    }
+    
+  }
+  async function speechToTextCancelled() {
+    try{
+      await Voice.stop();
+      setSpeechStarted(false);
+    }catch(error){
+      console.log(error)
+    }
+  }
   
   function toggleCategories() {
     Animated.timing(categoryHeight, {
@@ -25,24 +79,25 @@ function DiscoverScreen() {
       useNativeDriver: false
     }).start();
   }
-
+  
   async function handleSearchSuggestions(searchInput){
     setSearchInput(searchInput);
     let searchQuery = searchInput.trim();
-    let res = await axios.get(`${API_SERVER_URL}/api/item/all?limit=${limit}&search=${searchQuery}&categoryId=${currentCategoryId}`);
+    let res = await axios.get(`${API_SERVER_URL}/api/item/all?limit=${limit}&search=${searchQuery}&categoryId=all`);
     let { allItems } = res.data;
 
     setItems(allItems);
   }
 
-  async function filterItems(categoryId) {
+  async function filterItems(query, categoryId) {
+    let searchInput = query || searchInput;
     setLoading(true);
     let res = await axios.get(`${API_SERVER_URL}/api/item/all?limit=${limit}&search=${searchInput}&categoryId=${categoryId}`);
     let { allItems } = res.data;  
     setItems(allItems);
     setLoading(false);
   }
-
+  
   async function fetchCategories(){
     try{
       const res = await axios.get(`${API_SERVER_URL}/api/category/all`);
@@ -52,7 +107,7 @@ function DiscoverScreen() {
       console.log(error);
     }
   }
-
+  
   async function fetchItems(){
     setLoading(true);
     try{
@@ -64,14 +119,14 @@ function DiscoverScreen() {
     }
     setLoading(false);
   }
-
+  
   async function updateRecentSearches(searchInput) {
     if (searchInput.trim().length === 0) return;
     filterItems(currentCategoryId);
     let oneshopData = await AsyncStorage.getItem('@oneshopData');
     oneshopData = JSON.parse(oneshopData);
     let { recentSearches } = oneshopData;
-
+    
     let searchInputExists = recentSearches.find((search) => search === searchInput);
     if (searchInputExists) {
       recentSearches = recentSearches.filter((oldSearch) => oldSearch !== searchInput);
@@ -83,7 +138,7 @@ function DiscoverScreen() {
     oneshopData = JSON.stringify(oneshopData);
     updateOneshopData(oneshopData);
   }
-
+  
   async function handleDeleteRecentSearch(search) {
     let oneshopData = await AsyncStorage.getItem('@oneshopData');
     oneshopData = JSON.parse(oneshopData);
@@ -96,9 +151,10 @@ function DiscoverScreen() {
   }
   
   function handleInputFocused(event) {
+    if(currentCategoryId !== 'all') setCurrentCategoryId('all');
     setSearchFocused(true);
   }
-
+  
   function handleInputBlurred(event) {
     setSearchFocused(false);
   }
@@ -109,14 +165,23 @@ function DiscoverScreen() {
     updateRecentSearches(suggestion);
     Keyboard.dismiss();
   }
-  useEffect(() => {
-    fetchCategories();
-    fetchItems();
-  }, []);
   
-  
+  // return(<Text>{console.log(theme)}</Text>)
   return (
+    <Fragment>
+      { !speechStarted && 
+      <View style={themeStyles.speechBoxOuter}>
+        <View style={themeStyles.speechBoxInner}>
+          <Text>Listening...</Text>
+          <Bounce size={40} color='green' />
+          {/* <Text>{results[0]}</Text> */}
+          <Text onPress={ speechToTextCancelled }>cancel</Text>
+        </View>
+      </View>
+      }
+      
     <View style={themeStyles.container}>
+      
       <ScrollView contentContainerStyle={{ flex: 1 }}
         keyboardDismissMode="on-drag" keyboardShouldPersistTaps="always">
         {/* <Text style={themeStyles.title}>Discover</Text> */}
@@ -143,10 +208,10 @@ function DiscoverScreen() {
               />
 
               {
-                searchFocused ?
+                searchInput ?
                 <Entypo name='circle-with-cross' color='black' size={20} onPress={() => { setSearchInput("") }} />
                 :
-                <MaterialCommunityIcons name='microphone' color='black' size={20} onPress={() => { alert("speak now...") }} />
+                <MaterialCommunityIcons name='microphone' color='black' size={20} onPress={ speechToTextStarted } />
               }
 
             </View>
@@ -186,8 +251,11 @@ function DiscoverScreen() {
                 </Fragment>
                   :
                   <Fragment>
+                    {
+                      oneshopData.recentSearches &&
+                      <Fragment>
                     <Text style={{ ...themeStyles.title, fontSize: 20 }}>
-                      {oneshopData.recentSearches.length > 0 ? "Recent searches" : ""}
+                      {oneshopData.recentSearches.length > 0 &&"Recent searches"}
                     </Text>
                     {
                       oneshopData.recentSearches.map((search, index) => (
@@ -201,6 +269,9 @@ function DiscoverScreen() {
                           }} />
                         </View>
                       ))
+                    }
+              
+                      </Fragment>
                     }
                   </Fragment>
               }
@@ -290,6 +361,7 @@ function DiscoverScreen() {
         }
       </ScrollView>
         </View>
+      </Fragment>
   )
 }
 

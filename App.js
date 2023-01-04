@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import 'react-native-gesture-handler';
 import StackNavigator from './components/StackNavigator';
 import BottomTabNavigator from './components/BottomTabNavigator';
+import DiscoverScreen from './screens/DiscoverScreen';
 
 export default function App() {
   const [currentTheme, setCurrentTheme] = useState('light');
@@ -70,14 +71,16 @@ export default function App() {
         setUser: setUser,
         oneshopData: oneshopData,
         updateOneshopData: updateOneshopData,
-        // API_SERVER_URL: "http://192.168.43.240:5000"
-        API_SERVER_URL: "http://192.168.82.165:5000"
+        API_SERVER_URL: "http://192.168.43.240:5000"
+        // API_SERVER_URL: "http://192.168.82.165:5000"
       }}>
-        <NavigationContainer>
-          {
-            !user ? <StackNavigator /> : <BottomTabNavigator />
-          }
-        </NavigationContainer>
+        {/* <NavigationContainer> */}
+          {/* {
+            !user ? <StackNavigator /> : 
+          } */}
+          {/* <BottomTabNavigator />
+        </NavigationContainer> */}
+      <DiscoverScreen />
       </ThemeContext.Provider>
     );
 }
