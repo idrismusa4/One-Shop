@@ -7,6 +7,7 @@ import 'react-native-gesture-handler';
 import StackNavigator from './components/StackNavigator';
 import BottomTabNavigator from './components/BottomTabNavigator';
 import DiscoverScreen from './screens/DiscoverScreen';
+import ProfileScreen from './screens/ProfileScreen';
 
 export default function App() {
   const [currentTheme, setCurrentTheme] = useState('light');
@@ -47,7 +48,8 @@ export default function App() {
     updateOneshopData(JSON.stringify({
       user: {name: 'Harrison'},
       recentSearches: [],
-      currentTheme: 'light'
+      currentTheme: 'light',
+      mode: 'rentee'
     }));
     // oneshopData = await AsyncStorage.getItem('@oneshopData');
     // .then((res) => console.log(res))
@@ -74,13 +76,16 @@ export default function App() {
         API_SERVER_URL: "http://192.168.43.240:5000"
         // API_SERVER_URL: "http://192.168.82.165:5000"
       }}>
-        {/* <NavigationContainer> */}
-          {/* {
-            !user ? <StackNavigator /> : 
-          } */}
-          {/* <BottomTabNavigator />
+        {/* <NavigationContainer>
+          {
+            !user ? 
+            <StackNavigator /> 
+            : 
+           <BottomTabNavigator />
+          } 
         </NavigationContainer> */}
-      <DiscoverScreen />
+      {/* <DiscoverScreen /> */}
+      <ProfileScreen />
       </ThemeContext.Provider>
     );
 }

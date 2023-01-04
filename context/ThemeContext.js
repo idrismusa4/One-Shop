@@ -104,23 +104,13 @@ export const styles = {
             backgroundColor: '#656060', 
             borderRadius: 20, 
             paddingRight: 20,
-            // display: 'flex',
-            // flexDirection: 'row',
-            // alignItems: 'center',
-            // justifyContent: 'space-between'
-            shadowColor: 'rgba(0, 0, 0, 0.9)',
-            shadowOffset: {
-                width: 0,
-                height: -1
-            },
-            shadowRadius: 1,
             elevation: 7
         },
         itemInnerContainer: {
             height: 100, 
             marginBottom: 2, 
             // backgroundColor: '#b3c3c4', 
-            backgroundColor: 'cyan', 
+            backgroundColor: '#ffffff', 
             borderTopLeftRadius: 20, 
             borderBottomLeftRadius: 20, 
             paddingVertical: 10,
@@ -165,6 +155,69 @@ export const styles = {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+        },
+        profileScreenHeader: { 
+            width: '100%', 
+            display: 'flex', 
+            flexDirection: 'row', 
+            alignItems: 'center',  
+            justifyContent: 'space-between',
+            paddingHorizontal: 20
+        },
+        profileScreenArrowBack: { 
+            height: 30, 
+            width: 30, 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center', 
+            backgroundColor: "#000000", 
+            borderRadius: 100 
+        },
+        profileBox: {
+            width: '100%',
+            // height: 200,
+            marginTop: 5,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+        },
+        profileImage: {
+            width: 100,
+            height: 100,
+            borderRadius: 100,
+            marginBottom: 5
+        },
+        switchButton: {
+            height: 40,
+            width: 200,
+            backgroundColor: '#C0DD4D',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 100,
+            marginTop: 5
+        },
+        profileActions: {
+            width: '100%',
+            // backgroundColor: 'red',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginTop: 15,
+        },
+        profileAction: {
+            height: 50,
+            width: '80%',
+            backgroundColor: 'cyan',
+            borderRadius: 100,
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingHorizontal: 10,
+            marginBottom: 15,
+            elevation: 20
+            // justifyContent: 'space-between',
+            
         }
     },
     darkStyles: {

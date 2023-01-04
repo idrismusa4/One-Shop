@@ -163,13 +163,14 @@ function DiscoverScreen() {
   
   function handleInputBlurred(event) {
     setSearchFocused(false);
-    fetchItems('all');
+    filterItems('all', searchInput);
   }
   
   function handleSubmit(suggestion) {
     setSearchInput(suggestion);
     handleSearchSuggestions(suggestion);
     updateRecentSearches(suggestion);
+    filterItems('all', suggestion);
     Keyboard.dismiss();
   }
 
