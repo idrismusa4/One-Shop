@@ -17,7 +17,7 @@ function DiscoverScreen() {
   const [loading, setLoading] = useState(false);
   const [items, setItems] = useState([]);
   const categoryHeight = new Animated.Value(50);
-  const [speechStarted, setSpeechStarted] = useState(false  );
+  const [speechStarted, setSpeechStarted] = useState(false);
   const [results, setResults] = useState([]);
   // console.log(oneshopData)
 
@@ -46,7 +46,7 @@ function DiscoverScreen() {
   function speechResults(result) {
     setResults(result.value);
     setSearchInput(result.value[0]);
-    filterItems(result.value[0], 'all');
+    filterItems('all', result.value[0]);
   }
 
   function speechEnd() {
@@ -57,6 +57,7 @@ function DiscoverScreen() {
     try{
       await Voice.start('en-US');
       setSpeechStarted(true);
+      setResults([]);
       
     }catch(error){
       console.log(error)
@@ -89,10 +90,11 @@ function DiscoverScreen() {
     setItems(allItems);
   }
 
-  async function filterItems(query, categoryId) {
-    let searchInput = query || searchInput;
+  async function filterItems(categoryId, query) {
+    let searchQuery = query || searchInput;
+    // return console.log(searchQuery)
     setLoading(true);
-    let res = await axios.get(`${API_SERVER_URL}/api/item/all?limit=${limit}&search=${searchInput}&categoryId=${categoryId}`);
+    let res = await axios.get(`${API_SERVER_URL}/api/item/all?limit=${limit}&search=${searchQuery}&categoryId=${categoryId}`);
     let { allItems } = res.data;  
     setItems(allItems);
     setLoading(false);
@@ -165,20 +167,25 @@ function DiscoverScreen() {
     updateRecentSearches(suggestion);
     Keyboard.dismiss();
   }
+
+  function handleClearInput(){
+    setSearchInput('');
+    // filterItems('', 'all');
+  }
   
   // return(<Text>{console.log(theme)}</Text>)
   return (
     <Fragment>
-      { !speechStarted && 
+      
+      { speechStarted ?
       <View style={themeStyles.speechBoxOuter}>
         <View style={themeStyles.speechBoxInner}>
           <Text>Listening...</Text>
-          <Bounce size={40} color='green' />
-          {/* <Text>{results[0]}</Text> */}
+          <Bounce size={100} color='blue' />
           <Text onPress={ speechToTextCancelled }>cancel</Text>
         </View>
       </View>
-      }
+      :
       
     <View style={themeStyles.container}>
       
@@ -208,8 +215,8 @@ function DiscoverScreen() {
               />
 
               {
-                searchInput ?
-                <Entypo name='circle-with-cross' color='black' size={20} onPress={() => { setSearchInput("") }} />
+                (searchInput && searchFocused) ?
+                <Entypo name='circle-with-cross' color='black' size={20} onPress={() => { handleClearInput() }} />
                 :
                 <MaterialCommunityIcons name='microphone' color='black' size={20} onPress={ speechToTextStarted } />
               }
@@ -233,7 +240,7 @@ function DiscoverScreen() {
                     items.length === 0 ?
                     <View style={{ width: '100%', marginTop: 10, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                       <MaterialIcons name='search-off' color='black' size={50} />
-                      <Text style={{ fontWeight: 'bold', fontSize: 12, marginLeft: 10 }}>{`"${searchInput.trim()}" was not found in this category. Please consider clearing your filters.`}</Text>
+                      <Text style={{ fontWeight: 'bold', fontSize: 12, marginLeft: 10 }}>{`No items match your search`}</Text>
                     </View>
                     :
                     items.map((search, index) => (
@@ -360,7 +367,7 @@ function DiscoverScreen() {
           </View>
         }
       </ScrollView>
-        </View>
+        </View>}
       </Fragment>
   )
 }
