@@ -19,6 +19,7 @@ function DiscoverScreen() {
   const categoryHeight = new Animated.Value(50);
   const [speechStarted, setSpeechStarted] = useState(false);
   const [results, setResults] = useState([]);
+  const [partialResults, setPartialResults] = useState([]);
   // console.log(oneshopData)
 
   
@@ -31,6 +32,7 @@ function DiscoverScreen() {
     Voice.onSpeechResults = speechResults;
     Voice.onSpeechError = speechError;
     Voice.onSpeechEnd = speechEnd;
+    Voice.onSpeechPartialResults = speechPartial;
 
     return function() {
       Voice.destroy()
@@ -38,7 +40,9 @@ function DiscoverScreen() {
     }
 
   }, []);
-
+  function speechPartial(result){
+    setPartialResults(result.value[0]);
+  }
   function speechError (error) {
     console.log(error);
   }
@@ -58,9 +62,9 @@ function DiscoverScreen() {
       await Voice.start('en-US');
       setSpeechStarted(true);
       setResults([]);
-      
+      setPartialResults('');
     }catch(error){
-      console.log(error)
+      if(error.code === "7") setPartialResults("Nothing recorded");
     }
     
   }
@@ -69,7 +73,7 @@ function DiscoverScreen() {
       await Voice.stop();
       setSpeechStarted(false);
     }catch(error){
-      console.log(error)
+      if(error.code === "7") setPartialResults("Nothing recorded");
     }
   }
   
@@ -159,6 +163,7 @@ function DiscoverScreen() {
   
   function handleInputBlurred(event) {
     setSearchFocused(false);
+    fetchItems('all');
   }
   
   function handleSubmit(suggestion) {
@@ -182,6 +187,7 @@ function DiscoverScreen() {
         <View style={themeStyles.speechBoxInner}>
           <Text>Listening...</Text>
           <Bounce size={100} color='blue' />
+          <Text>{partialResults}</Text>
           <Text onPress={ speechToTextCancelled }>cancel</Text>
         </View>
       </View>
@@ -302,7 +308,7 @@ function DiscoverScreen() {
               <Text
                 style={
                   currentCategoryId === 'all' ?
-                    { ...themeStyles.discoverCategory, backgroundColor: '#C0DD4D' } :
+                    { ...themeStyles.discoverCategory, borderWidth: 2, borderColor: "rgba(0, 0, 255, 0.2)" } :
                     themeStyles.discoverCategory
                 }
                 onPress={() => {
@@ -317,7 +323,7 @@ function DiscoverScreen() {
                       key={category._id}
                       style={
                         currentCategoryId === category._id ?
-                          { ...themeStyles.discoverCategory, backgroundColor: '#C0DD4D' } :
+                          { ...themeStyles.discoverCategory, borderWidth: 2, borderColor: "rgba(0, 0, 255, 0.2)" } :
                           themeStyles.discoverCategory
                       }
                       onPress={() => {

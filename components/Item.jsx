@@ -8,7 +8,7 @@ function Item({ item }) {
     return (
     <View style={themeStyles.itemOuterContainer}>
         <View style={themeStyles.itemInnerContainer}>
-        <Image source={{ uri: `${API_SERVER_URL}/api/static/images/${item.thumbnail}` }} style={{ height: 80, width: 80, borderRadius: 100 }} alt={item.name} />
+        <Image source={{ uri: `${API_SERVER_URL}/api/static/images/${item.thumbnail}` }} style={{ height: 80, width: 150, borderRadius: 10 }} alt={item.name} resizeMode="contain" />
         <View style={themeStyles.itemProps}>
             <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{item.name}</Text>
             <CustomRating defaultRating={item.rating} />

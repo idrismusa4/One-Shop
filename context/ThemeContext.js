@@ -90,29 +90,37 @@ export const styles = {
             justifyContent: 'center',
             paddingVertical: 10,
             paddingHorizontal: 20,
-            backgroundColor: '#D9D9D9',
+            backgroundColor: '#C0DD4D',
             borderRadius: 50,
             color: 'white',
             fontWeight: 'bold',
             fontSize: 15,
             marginRight: 5,
-            transition: '.3s ease'
+            transition: '.3s ease',
         },
         itemOuterContainer: {
             height: 100, 
-            marginBottom: 2, 
+            marginBottom: 20, 
             backgroundColor: '#656060', 
             borderRadius: 20, 
-            paddingRight: 30
+            paddingRight: 20,
             // display: 'flex',
             // flexDirection: 'row',
             // alignItems: 'center',
             // justifyContent: 'space-between'
+            shadowColor: 'rgba(0, 0, 0, 0.9)',
+            shadowOffset: {
+                width: 0,
+                height: -1
+            },
+            shadowRadius: 1,
+            elevation: 7
         },
         itemInnerContainer: {
             height: 100, 
             marginBottom: 2, 
-            backgroundColor: '#b3c3c4', 
+            // backgroundColor: '#b3c3c4', 
+            backgroundColor: 'cyan', 
             borderTopLeftRadius: 20, 
             borderBottomLeftRadius: 20, 
             paddingVertical: 10,
