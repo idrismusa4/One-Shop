@@ -8,7 +8,7 @@ function HomeScreen() {
   return (
     <View style={themeStyles.container}>
       <ScrollView contentContainerStyle={{ paddingTop: 20 }}>
-        <Text style={themeStyles.welcome}>Welcome, {user.name}</Text>
+        <Text style={themeStyles.welcome}>Welcome, {user.username}</Text>
 
         
       </ScrollView>

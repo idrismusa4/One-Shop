@@ -13,7 +13,7 @@ export const styles = {
             backgroundColor: 'white',
             paddingLeft: 10,
             paddingRight: 10,
-            marginTop: StatusBar.currentHeight
+            // marginTop: StatusBar.currentHeight
         },
         title: {
             fontSize: 30,
@@ -58,7 +58,7 @@ export const styles = {
             paddingRight: 30,
             color: '#110101',
             backgroundColor: '#D9D9D9',
-            borderRadius: 2
+            borderRadius: 100
         },
         welcome: {
             fontWeight: 'bold',
@@ -195,7 +195,8 @@ export const styles = {
             alignItems: 'center',
             justifyContent: 'center',
             borderRadius: 100,
-            marginTop: 5
+            marginTop: 5,
+            elevation: 5
         },
         profileActions: {
             width: '100%',
@@ -215,7 +216,7 @@ export const styles = {
             alignItems: 'center',
             paddingHorizontal: 10,
             marginBottom: 15,
-            elevation: 20
+            elevation: 5
             // justifyContent: 'space-between',
             
         }

@@ -1,12 +1,13 @@
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, TextInput, Pressable } from 'react-native';
 import { useState, useContext } from 'react';
 import { ThemeContext } from '../context/ThemeContext';
-
+import axios from 'axios';
 
 export default function LoginScreen({ navigation }) {
-  const { themeStyles, setUser } = useContext(ThemeContext);
+  const { themeStyles, setUser, API_SERVER_URL, oneshopData, updateOneshopData } = useContext(ThemeContext);
 
   const [userData, setUserData] = useState({});
+
   function updateUserData(value, name){
     setUserData((prevUserData) => ({
       ...prevUserData,
@@ -15,9 +16,31 @@ export default function LoginScreen({ navigation }) {
     // console.log(userData);
   }
 
-  function loginUser(){
-    setUser({ name: "Harrison" });
-    console.log(userData);
+  async function loginUser(){
+    let { username, password } = userData;
+    if(!(username && password)) return alert('Fields cannot be empty!');
+    
+    // let readyUserData = { ...userData };
+    // delete readyUserData['reenterPassword'];
+    // setUserData(readyUserData);
+
+    try{
+      let res = await axios.post(`${API_SERVER_URL}/api/user/login`, userData);
+      // return console.log(res.data.user)
+      if(res.data.success) {
+        // setUser(res.data.user);
+        updateOneshopData({
+          ...oneshopData,
+          user: res.data.user
+        });
+      }
+
+
+
+      alert(res.data.message);
+    }catch(error){
+      alert(error.response.data.message);
+    }
   }
 
   return (
@@ -30,9 +53,9 @@ export default function LoginScreen({ navigation }) {
         <View style={themeStyles.inputContainer}>
           <TextInput style={themeStyles.input}
            type='text'
-           value={userData.email}
-           placeholder='Email'
-            onChangeText={(text) => { updateUserData(text, 'email') }}
+           value={userData.username}
+           placeholder='Username'
+            onChangeText={(text) => { updateUserData(text, 'username') }}
             />
         </View>
         

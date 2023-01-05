@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, TextInput, Pressable } from 'react-native';
 import { useState, useContext } from 'react';
 import { ThemeContext } from '../context/ThemeContext';
+import axios from 'axios';
 
 
 export default function RegisterScreen({ navigation }) {
-  const { themeStyles } = useContext(ThemeContext);
+  const { themeStyles, user, setUser, API_SERVER_URL } = useContext(ThemeContext);
   const [userData, setUserData] = useState({});
   function updateUserData(value, name){
     setUserData((prevUserData) => ({
@@ -14,8 +15,22 @@ export default function RegisterScreen({ navigation }) {
     // console.log(userData);
   }
 
-  function registerUser(){
-    console.log(userData);
+  async function registerUser(){
+    let { username, email, password, reenterPassword } = userData;
+    if(!(username && email && password && reenterPassword)) return alert('Fields cannot be empty!');
+    if(password !== reenterPassword) return alert('passwords dont match!');
+    
+    let readyUserData = { ...userData };
+    delete readyUserData['reenterPassword'];
+    setUserData(readyUserData);
+
+    try{
+      let res = await axios.post(`${API_SERVER_URL}/api/user/register`, readyUserData);
+      alert(res.data.message);
+    }catch(error){
+      alert(error.response.data.message);
+    }
+
   }
 
   return (
@@ -29,8 +44,8 @@ export default function RegisterScreen({ navigation }) {
           <Text style={themeStyles.inputLabel}>Name</Text>
           <TextInput style={themeStyles.input}
            type='text'
-           value={userData.fullname}
-           onChangeText={(text) => { updateUserData(text, 'fullname') }}
+           value={userData.username}
+           onChangeText={(text) => { updateUserData(text, 'username') }}
            />
         </View>
         

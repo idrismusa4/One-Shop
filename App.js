@@ -8,6 +8,9 @@ import StackNavigator from './components/StackNavigator';
 import BottomTabNavigator from './components/BottomTabNavigator';
 import DiscoverScreen from './screens/DiscoverScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import RegisterScreen from './screens/RegisterScreen';
+import LoginScreen from './screens/LoginScreen';
+import HomeScreen from './screens/HomeScreen';
 
 export default function App() {
   const [currentTheme, setCurrentTheme] = useState('light');
@@ -33,7 +36,7 @@ export default function App() {
   }
   async function updateOneshopData(oneshopData){
     // return console.log(oneshopData)
-    await AsyncStorage.setItem('@oneshopData', oneshopData);
+    await AsyncStorage.setItem('@oneshopData', JSON.stringify(oneshopData));
     loadOneshopData();
   }
   async function loadOneshopData(){
@@ -86,6 +89,9 @@ export default function App() {
         </NavigationContainer> */}
       {/* <DiscoverScreen /> */}
       <ProfileScreen />
+      {/* <RegisterScreen /> */}
+      {/* <LoginScreen /> */}
+      {/* <HomeScreen /> */}
       </ThemeContext.Provider>
     );
 }
