@@ -9,7 +9,7 @@ import ProfileAction from '../components/ProfileAction';
 function ProfileScreen({ navigation }) {
     const { themeStyles, user, theme, API_SERVER_URL, oneshopData } = useContext(ThemeContext);
   return (
-    <ScrollView contentContainerStyly={themeStyles.container}>
+    <ScrollView contentContainerStyle={themeStyles.container}>
 
       <View style={themeStyles.profileScreenHeader}>
       <MaterialIcons name="keyboard-backspace" size={25} color="#000000" />

@@ -16,7 +16,7 @@ export default function BottomTabNavigator(){
 
     return(
         <Tab.Navigator 
-        initialRouteName='Discover'
+        initialRouteName='Home'
         tabBarPosition='bottom'
         // navigationOptions={({navigation}) => {{
         //   tabBarOnPress:  (scene, jumpToIndex) => {

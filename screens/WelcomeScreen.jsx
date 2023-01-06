@@ -16,16 +16,16 @@ export default function WelcomeScreen({ navigation }) {
     }).start();
   }
 
+  Animated.timing(marginTop, {
+    toValue: 20,
+    duration: 1000,
+    useNativeDriver: false
+  }).start();
+  
+  setTimeout(() => {
+    fadeMessage();
+  }, 1000);
   useEffect(() => {
-    Animated.timing(marginTop, {
-      toValue: 20,
-      duration: 1000,
-      useNativeDriver: false
-    }).start();
-
-    setTimeout(() => {
-      fadeMessage();
-    }, 1000);
   }, []);
 
   return (

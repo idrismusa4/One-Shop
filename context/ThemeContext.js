@@ -13,7 +13,7 @@ export const styles = {
             backgroundColor: 'white',
             paddingLeft: 10,
             paddingRight: 10,
-            // marginTop: StatusBar.currentHeight
+            marginTop: StatusBar.currentHeight
         },
         title: {
             fontSize: 30,
@@ -25,7 +25,8 @@ export const styles = {
             height: 300,
             marginLeft: 'auto',
             marginRight: 'auto',
-            borderRadius: 300
+            borderRadius: 300,
+            // backgroundColor: 'red'
         },
         regularText: { 
             fontSize: 20
@@ -36,7 +37,7 @@ export const styles = {
             flexDirection: 'column',
             alignItems: 'flex-start',
             paddingLeft: 20, 
-            paddingRight: 20 
+            paddingRight: 20
         },
         inputContainer: {
             width: '100%',
@@ -67,12 +68,12 @@ export const styles = {
             letterSpacing: 0.01,
             color: '#000000',
             mixBlendMode: 'normal',
-            textShadowColor: 'rgba(0, 0, 0, 0.7)',
+            textShadowColor: 'rgba(0, 0, 0, 0.3)',
             textShadowOffset: {
                 width: 3,
                 height: 3
             },
-            textShadowRadius: 10
+            textShadowRadius: 10,
         },
         discoverCategories: {
             display: 'flex',

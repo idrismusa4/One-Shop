@@ -2,11 +2,14 @@ import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, TextInput,
 import { useState, useContext } from 'react';
 import { ThemeContext } from '../context/ThemeContext';
 import axios from 'axios';
-
+import { CircleFade } from 'react-native-animated-spinkit';
+import Toast from 'react-native-root-toast';
 
 export default function RegisterScreen({ navigation }) {
   const { themeStyles, user, setUser, API_SERVER_URL } = useContext(ThemeContext);
   const [userData, setUserData] = useState({});
+  const [loading, setLoading] = useState(false);
+
   function updateUserData(value, name){
     setUserData((prevUserData) => ({
       ...prevUserData,
@@ -17,23 +20,38 @@ export default function RegisterScreen({ navigation }) {
 
   async function registerUser(){
     let { username, email, password, reenterPassword } = userData;
-    if(!(username && email && password && reenterPassword)) return alert('Fields cannot be empty!');
-    if(password !== reenterPassword) return alert('passwords dont match!');
+    if(!(username && email && password && reenterPassword)) 
+      return Toast.show('Fields cannot be empty!', { 
+        duration: 5000, 
+        style: { backgroundColor: 'red' },
+        // textStyle: { color: '#ffffff' } 
+      });
+    if(password !== reenterPassword) 
+      return Toast.show('passwords dont match!', { duration: 5000 });
     
     let readyUserData = { ...userData };
     delete readyUserData['reenterPassword'];
     setUserData(readyUserData);
 
     try{
+      setLoading(true);
+
       let res = await axios.post(`${API_SERVER_URL}/api/user/register`, readyUserData);
-      alert(res.data.message);
+      Toast.show(res.data.message, { duration: 5000 });
+      if(res.data.success) {
+        navigation.navigate('login');
+      }
+      setLoading(false);
+      
     }catch(error){
-      alert(error.response.data.message);
+      setLoading(false);
+      Toast.show(error.response.data.message, { duration: 5000 });
     }
 
   }
 
   return (
+    !loading ?
     <View style={themeStyles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
       <Image source={require('../assets/logo.png')} style={{ ...themeStyles.logo, width: 150, height: 150 }} alt='logo' />
@@ -109,7 +127,7 @@ export default function RegisterScreen({ navigation }) {
         <Text style={{ ...themeStyles.regularText, color: 'white'}}>Sign up with Google</Text>
       </Pressable>
 
-      <TouchableOpacity style={{ width: '80%', textAlign: 'center', marginLeft: 'auto', marginRight: 'auto', marginTop: 20, marginBottom: 20, display: 'flex', alignItems: 'center' }}>
+      <TouchableOpacity style={{ width: '80%', textAlign: 'center', marginLeft: 'auto', marginRight: 'auto', marginTop: 10, display: 'flex', alignItems: 'center' }}>
         <Text style={{ fontSize: 18 }}>
           Already have an account? 
           <Text onPress={() => { navigation.navigate('Login') }}> Sign In</Text>
@@ -117,6 +135,10 @@ export default function RegisterScreen({ navigation }) {
       </TouchableOpacity>
       
         </ScrollView>
+    </View>
+    :
+    <View style={themeStyles.speechBoxOuter}>
+      <CircleFade size={100} color='#C0DD4D' />
     </View>
   );
 }

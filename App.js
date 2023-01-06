@@ -49,7 +49,7 @@ export default function App() {
       return;
     }
     updateOneshopData(JSON.stringify({
-      user: {name: 'Harrison'},
+      user: {},
       recentSearches: [],
       currentTheme: 'light',
       mode: 'rentee'
@@ -64,6 +64,7 @@ export default function App() {
     // clearOneshopData();
     // saveUser({ name: "Harrison" });
     // getUser();
+    // console.log(process.env.NODE_ENV);
   }, []);
   
   
@@ -79,16 +80,17 @@ export default function App() {
         API_SERVER_URL: "http://192.168.43.240:5000"
         // API_SERVER_URL: "http://192.168.82.165:5000"
       }}>
-        {/* <NavigationContainer>
+        <NavigationContainer>
           {
             !user ? 
             <StackNavigator /> 
             : 
            <BottomTabNavigator />
           } 
-        </NavigationContainer> */}
+        </NavigationContainer>
+        
       {/* <DiscoverScreen /> */}
-      <ProfileScreen />
+      {/* <ProfileScreen /> */}
       {/* <RegisterScreen /> */}
       {/* <LoginScreen /> */}
       {/* <HomeScreen /> */}
