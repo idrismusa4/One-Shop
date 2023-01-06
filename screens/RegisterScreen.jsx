@@ -23,11 +23,13 @@ export default function RegisterScreen({ navigation }) {
     if(!(username && email && password && reenterPassword)) 
       return Toast.show('Fields cannot be empty!', { 
         duration: 5000, 
-        style: { backgroundColor: 'red' },
-        // textStyle: { color: '#ffffff' } 
+        backgroundColor: 'red',
       });
     if(password !== reenterPassword) 
-      return Toast.show('passwords dont match!', { duration: 5000 });
+      return Toast.show('passwords dont match!', { 
+        duration: 5000, 
+        backgroundColor: 'red',
+      });
     
     let readyUserData = { ...userData };
     delete readyUserData['reenterPassword'];
@@ -37,15 +39,24 @@ export default function RegisterScreen({ navigation }) {
       setLoading(true);
 
       let res = await axios.post(`${API_SERVER_URL}/api/user/register`, readyUserData);
-      Toast.show(res.data.message, { duration: 5000 });
+      Toast.show(res.data.message, { 
+        duration: 5000,
+        backgroundColor: '#ffffff',
+        textStyle: {
+          color: '#000000'
+        }
+      });
       if(res.data.success) {
-        navigation.navigate('login');
+        navigation.navigate('Login');
       }
       setLoading(false);
       
     }catch(error){
       setLoading(false);
-      Toast.show(error.response.data.message, { duration: 5000 });
+      Toast.show(error.response.data.message, { 
+        duration: 5000, 
+        backgroundColor: 'red',
+      });
     }
 
   }

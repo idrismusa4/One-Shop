@@ -11,6 +11,7 @@ import ProfileScreen from './screens/ProfileScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
+import Toast from 'react-native-root-toast';
 
 export default function App() {
   const [currentTheme, setCurrentTheme] = useState('light');
@@ -18,9 +19,9 @@ export default function App() {
   const [user, setUser] = useState();
   // const [user, setUser] = useState();
   // const [loading, setLoading] = useState(false);
-  function toggleTheme(){
-    setCurrentTheme((currentTheme) => currentTheme === 'light' ? 'dark' : 'light');
-  }
+  // function toggleTheme(){
+  //   setCurrentTheme((currentTheme) => currentTheme === 'light' ? 'dark' : 'light');
+  // }
   
   // async function saveUser(userData){
   //   await AsyncStorage.setItem('@user', JSON.stringify({...userData}));
@@ -33,6 +34,14 @@ export default function App() {
   // console.log(oneshopData)
   async function clearOneshopData(){
     await AsyncStorage.removeItem('@oneshopData');
+    Toast.show('You have successfully logged out', { 
+      duration: 5000,
+      backgroundColor: '#ffffff',
+      textStyle: {
+        color: '#000000'
+      }
+    });
+    loadOneshopData();
   }
   async function updateOneshopData(oneshopData){
     // return console.log(oneshopData)
@@ -45,7 +54,8 @@ export default function App() {
     if(typeof oneshopData !== 'object') {
       setOneshopData(JSON.parse(oneshopData));
       setUser(JSON.parse(oneshopData).user);
-      // console.log(oneshopData);
+      setCurrentTheme(JSON.parse(oneshopData).currentTheme);
+      // console.log(JSON.parse(oneshopData).currentTheme);
       return;
     }
     updateOneshopData(JSON.stringify({
@@ -70,13 +80,14 @@ export default function App() {
   
     return(
       <ThemeContext.Provider value={{ 
-        theme: currentTheme, 
-        toggleTheme: toggleTheme,
-        themeStyles: currentTheme === 'light' ? styles.lightStyles : styles.darkStyles,
+        // theme: currentTheme, 
+        // toggleTheme: toggleTheme,
+        themeStyles: oneshopData.currentTheme === 'light' ? styles.lightStyles : styles.darkStyles,
         user: user,
         setUser: setUser,
         oneshopData: oneshopData,
         updateOneshopData: updateOneshopData,
+        clearOneshopData: clearOneshopData,
         API_SERVER_URL: "http://192.168.43.240:5000"
         // API_SERVER_URL: "http://192.168.82.165:5000"
       }}>

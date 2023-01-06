@@ -3,22 +3,34 @@ import { Text, View, Image, ScrollView } from 'react-native';
 import { useContext } from 'react';
 import { ThemeContext } from '../context/ThemeContext';
 import { AntDesign, Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import ProfileAction from '../components/ProfileAction';
 
 function ProfileScreen({ navigation }) {
-    const { themeStyles, user, theme, API_SERVER_URL, oneshopData } = useContext(ThemeContext);
+  const { themeStyles, user, theme, API_SERVER_URL, oneshopData, clearOneshopData, updateOneshopData } = useContext(ThemeContext);
+
+  function logout(){
+    clearOneshopData();
+  }
+
+  function toggleTheme(){
+    updateOneshopData({
+      ...oneshopData,
+      currentTheme: oneshopData.currentTheme === 'light' ? 'dark' : 'light'
+    });
+  }
+  
+
   return (
     <ScrollView contentContainerStyle={themeStyles.container}>
 
       <View style={themeStyles.profileScreenHeader}>
-      <MaterialIcons name="keyboard-backspace" size={25} color="#000000" />
+      <MaterialIcons name="keyboard-backspace" size={25} color="#000000" onPress={ () => { navigation.goBack() } } />
 
         {
-          theme === 'light' ?
-          <Ionicons name="md-moon-sharp" size={24} color="#000000" />
+          oneshopData.currentTheme === 'light' ?
+          <Ionicons name="md-moon-sharp" size={24} color="#000000" onPress={ toggleTheme } />
           :
-          <Ionicons name="sunny-outline" size={24} color="#000000" />
+          <Ionicons name="sunny-outline" size={24} color="#ffffff" onPress={ toggleTheme } />
         }
       </View>
         {
@@ -39,7 +51,7 @@ function ProfileScreen({ navigation }) {
       }
 
       <View style={themeStyles.profileActions}>
-        <ProfileAction 
+        <ProfileAction
           action="Privacy"
           action_icon={<MaterialIcons name="privacy-tip" size={24} color="black" />} 
         />
@@ -67,6 +79,7 @@ function ProfileScreen({ navigation }) {
         <ProfileAction 
           action="Logout"
           action_icon={<AntDesign name="logout" size={24} color="black" />} 
+          onPress={logout}
         />
 
         

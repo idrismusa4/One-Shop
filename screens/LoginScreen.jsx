@@ -22,8 +22,10 @@ export default function LoginScreen({ navigation }) {
   async function loginUser(){
     let { username, password } = userData;
     if(!(username && password)) 
-      return Toast.show('Fields cannot be empty!', { duration: 5000 });
-    
+      return Toast.show('Fields cannot be empty!', { 
+        duration: 5000, 
+        backgroundColor: 'red',
+      });    
     // let readyUserData = { ...userData };
     // delete readyUserData['reenterPassword'];
     // setUserData(readyUserData);
@@ -40,11 +42,20 @@ export default function LoginScreen({ navigation }) {
         });
       }
 
-      Toast.show(res.data.message, { duration: 5000 });
+      Toast.show(res.data.message, { 
+        duration: 5000,
+        backgroundColor: '#ffffff',
+        textStyle: {
+          color: '#000000'
+        }
+      });
       setLoading(false);
     }catch(error){
       setLoading(false);
-      Toast.show(error.response.data.message, { duration: 5000 });
+      Toast.show(error.response.data.message, { 
+        duration: 5000, 
+        backgroundColor: 'red',
+      });  
     }
   }
   
