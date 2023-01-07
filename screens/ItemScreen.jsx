@@ -16,8 +16,7 @@ function ItemScreen({ route }) {
                 autoPlay={true}
                 data={[...new Array(6).keys()]}
                 scrollAnimationDuration={1000}
-                // onSnapToItem={(index) => console.log('current index:', index)}
-                enableGestureSwipe={true}
+                pagingEnabled={true}
                 renderItem={({ index }) => (
                     <View
                         style={{
