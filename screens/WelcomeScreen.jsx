@@ -33,7 +33,7 @@ export default function WelcomeScreen({ navigation }) {
       <View style={{ width: '100%', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent', paddingTop: 50 }}>
         <Animated.Image source={require('../assets/logo.png')} style={{ ...themeStyles.logo, marginTop: marginTop }} alt='logo' />
         <Animated.Text style={{ ...themeStyles.title, opacity: opacity }}>Welcome to OneShop</Animated.Text>
-        <Animated.Text style={{ ...themeStyles.regularText, marginTop: 5, opacity: opacity }}>Your No. 1 One-Stop Rental</Animated.Text>
+        <Animated.Text style={{ ...themeStyles.regularText, marginTop: 5, opacity: opacity }}>Your one-stop shop for rentals</Animated.Text>
 
         <Pressable style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#C0DD4D', height: 50, paddingLeft: 20, paddingRight: 20, marginTop: 'auto', marginBottom: 20, borderRadius: 30 }}
           onPress={() => { navigation.replace('Register') }}

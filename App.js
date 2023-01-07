@@ -19,9 +19,9 @@ export default function App() {
   const [user, setUser] = useState();
   // const [user, setUser] = useState();
   // const [loading, setLoading] = useState(false);
-  // function toggleTheme(){
-  //   setCurrentTheme((currentTheme) => currentTheme === 'light' ? 'dark' : 'light');
-  // }
+  function toggleTheme(){
+    setCurrentTheme((currentTheme) => currentTheme === 'light' ? 'dark' : 'light');
+  }
   
   // async function saveUser(userData){
   //   await AsyncStorage.setItem('@user', JSON.stringify({...userData}));
@@ -54,8 +54,7 @@ export default function App() {
     if(typeof oneshopData !== 'object') {
       setOneshopData(JSON.parse(oneshopData));
       setUser(JSON.parse(oneshopData).user);
-      setCurrentTheme(JSON.parse(oneshopData).currentTheme);
-      // console.log(JSON.parse(oneshopData).currentTheme);
+      // console.log(oneshopData);
       return;
     }
     updateOneshopData(JSON.stringify({
@@ -80,9 +79,9 @@ export default function App() {
   
     return(
       <ThemeContext.Provider value={{ 
-        // theme: currentTheme, 
-        // toggleTheme: toggleTheme,
-        themeStyles: oneshopData.currentTheme === 'light' ? styles.lightStyles : styles.darkStyles,
+        theme: currentTheme, 
+        toggleTheme: toggleTheme,
+        themeStyles: currentTheme === 'light' ? styles.lightStyles : styles.darkStyles,
         user: user,
         setUser: setUser,
         oneshopData: oneshopData,

@@ -9,6 +9,7 @@ import DiscoverScreen from '../screens/DiscoverScreen';
 import AddItemScreen from '../screens/AddItemScreen';
 import ActivityScreen from '../screens/ActivityScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import ItemScreen from '../screens/ItemScreen';
 
 export default function BottomTabNavigator(){
   // const Tab = createMaterialTopTabNavigator();
@@ -56,6 +57,12 @@ export default function BottomTabNavigator(){
                 : 'user-o';
               return <FontAwesome name={iconName} size={20} color={color} />;
             }
+            if (route.name === 'Item') {
+              iconName = focused
+                ? 'user'
+                : 'user-o';
+              return null;
+            }
           },
           headerShown: false,
           tabBarIndicatorStyle: {
@@ -87,6 +94,11 @@ export default function BottomTabNavigator(){
             }}/> : <></>}
             <Tab.Screen name="Activity" component={ActivityScreen} />
             <Tab.Screen name="Profile" component={ProfileScreen} />
+            <Tab.Screen name="Item" component={ItemScreen} options={{
+              tabBarItemStyle: {
+                display: 'none'
+              }
+            }} />
         </Tab.Navigator>
     );
 }

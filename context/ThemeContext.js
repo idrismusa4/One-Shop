@@ -21,8 +21,8 @@ export const styles = {
             color: 'black'
         },
         logo: {
-            width: 300,
-            height: 300,
+            width: 350,
+            height: 350,
             marginLeft: 'auto',
             marginRight: 'auto',
             borderRadius: 300,

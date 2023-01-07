@@ -12,12 +12,12 @@ function ProfileScreen({ navigation }) {
     clearOneshopData();
   }
 
-  function toggleTheme(){
-    updateOneshopData({
-      ...oneshopData,
-      currentTheme: oneshopData.currentTheme === 'light' ? 'dark' : 'light'
-    });
-  }
+  // function toggleTheme(){
+  //   updateOneshopData({
+  //     ...oneshopData,
+  //     currentTheme: oneshopData.currentTheme === 'light' ? 'dark' : 'light'
+  //   });
+  // }
   
 
   return (
@@ -28,9 +28,9 @@ function ProfileScreen({ navigation }) {
 
         {
           oneshopData.currentTheme === 'light' ?
-          <Ionicons name="md-moon-sharp" size={24} color="#000000" onPress={ toggleTheme } />
+          <Ionicons name="md-moon-sharp" size={24} color="#000000" />
           :
-          <Ionicons name="sunny-outline" size={24} color="#ffffff" onPress={ toggleTheme } />
+          <Ionicons name="sunny-outline" size={24} color="#ffffff" />
         }
       </View>
         {

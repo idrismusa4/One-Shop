@@ -8,7 +8,7 @@ import { Grid, Bounce } from 'react-native-animated-spinkit';
 import Item from '../components/Item';
 import Voice from '@react-native-voice/voice';
 
-function DiscoverScreen() {
+function DiscoverScreen({ navigation }) {
   const [searchFocused, setSearchFocused] = useState(true);
   const [searchInput, setSearchInput] = useState("");
   const [categories, setCategories] = useState([]);
@@ -362,7 +362,7 @@ function DiscoverScreen() {
                       :
                       <View>
                         { items.map((item) => (
-                          <Item key={item._id} item={item} />
+                          <Item key={item._id} item={item} navigation={navigation} />
                         )) }
                         <Text onPress={()=>{ limit += 10, filterItems(currentCategoryId) }}>More</Text>
                       </View>
