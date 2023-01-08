@@ -1,35 +1,32 @@
-import * as React from 'react';
-import { Dimensions, Text, View } from 'react-native';
+import { useContext } from 'react';
+import { Dimensions, Image, Text, View } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
-
+import { ThemeContext } from '../context/ThemeContext';
 function ItemScreen({ route }) {
-    const { itemId } = route.params;
+    const { item } = route.params;
     const width = Dimensions.get('window').width;
     const height = Dimensions.get('window').height;
+
+    const { API_SERVER_URL } = useContext(ThemeContext);
 
     return (
         <View style={{ flex: 1 }}>
             <Carousel
                 loop
                 width={width}
-                height={height / 3}
+                height={height / 2.5}
                 autoPlay={true}
-                data={[...new Array(6).keys()]}
+                data={item.thumbnails}
                 scrollAnimationDuration={1000}
                 pagingEnabled={true}
-                renderItem={({ index }) => (
-                    <View
-                        style={{
-                            flex: 1,
-                            borderWidth: 1,
-                            justifyContent: 'center', 
-                            backgroundColor: 'red'
-                        }}
-                    >
-                        <Text style={{ textAlign: 'center', fontSize: 30 }}>
-                            {`${index} ${itemId}`}
-                        </Text>
-                    </View>
+                renderItem={({ item: image }) => (
+                    <Image source={{ uri: `${API_SERVER_URL}/api/static/images/${image}` }}
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        backgroundColor: 'red'
+                    }}
+                    />
                 )}
             />
         </View>

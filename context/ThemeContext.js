@@ -29,7 +29,7 @@ export const styles = {
             // backgroundColor: 'red'
         },
         regularText: { 
-            fontSize: 20
+            fontSize: 15
         },
         form: {
             width: '100%',
