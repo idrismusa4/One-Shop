@@ -9,6 +9,7 @@ export default function StackNavigator() {
   return (
     <Stack.Navigator 
         initialRouteName='Welcome'
+        backBehavior="history"
         screenOptions={{
             headerShown: false,
             presentation: 'modal'

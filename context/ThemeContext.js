@@ -186,7 +186,9 @@ export const styles = {
             width: 100,
             height: 100,
             borderRadius: 100,
-            marginBottom: 5
+            marginBottom: 5,
+            borderWidth: 5,
+            borderColor: '#C0DD4D'
         },
         switchButton: {
             height: 40,

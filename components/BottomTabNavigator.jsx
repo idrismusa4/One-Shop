@@ -19,6 +19,7 @@ export default function BottomTabNavigator(){
         <Tab.Navigator 
         initialRouteName='Home'
         tabBarPosition='bottom'
+        backBehavior="history"
         // navigationOptions={({navigation}) => {{
         //   tabBarOnPress:  (scene, jumpToIndex) => {
         //     console.log(scene.route);

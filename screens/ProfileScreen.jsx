@@ -1,15 +1,59 @@
-import React from 'react';
-import { Text, View, Image, ScrollView } from 'react-native';
-import { useContext } from 'react';
+import React, { useContext, useState } from 'react';
+import { Text, View, Image, ScrollView, TextInput, TouchableOpacity, Pressable } from 'react-native';
 import { ThemeContext } from '../context/ThemeContext';
 import { AntDesign, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import ProfileAction from '../components/ProfileAction';
+import axios from 'axios';
+import { CircleFade } from 'react-native-animated-spinkit';
 
 function ProfileScreen({ navigation }) {
+  const [profileImages, setProfileImages] = useState([]);
+  const [prompt, setPrompt] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [showProfileDescBox, setShowProfileDescBox] = useState(false);
   const { themeStyles, user, theme, API_SERVER_URL, oneshopData, clearOneshopData, updateOneshopData } = useContext(ThemeContext);
 
   function logout(){
     clearOneshopData();
+  }
+
+  async function generateImage(){
+    setLoading(true);
+    try{
+      const res = await axios.post(`${API_SERVER_URL}/api/user/new/image`, {
+        prompt,
+        size: '512x512',
+        n: 2
+      });
+      // console.log(res.data.images);
+      setProfileImages(res.data.images);
+      setLoading(false);
+    }catch(error){
+      setLoading(false);
+      alert("Something went wrong");
+    }
+  }
+  async function updateProfileImage(imageUrl){
+    setLoading(true);
+    try{
+      const res = await axios.post(`${API_SERVER_URL}/api/user/update/image`, {
+        userId: user._id,
+        imageUrl
+      });
+      if(res.data.success) alert(res.data.message);
+      updateOneshopData({
+        ...oneshopData,
+        user: {
+          ...user,
+          profileImage: imageUrl
+        }
+      });
+      setShowProfileDescBox(false);
+      setLoading(false);
+    }catch(error){
+      setLoading(false);
+      alert("Something went wrong");
+    }
   }
 
   // function toggleTheme(){
@@ -22,6 +66,63 @@ function ProfileScreen({ navigation }) {
 
   return (
     <ScrollView contentContainerStyle={themeStyles.container}>
+      {
+        showProfileDescBox &&
+      <View style={{ backgroundColor: 'transparent', position: 'absolute', height: '100%', zIndex: 2, width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <ScrollView contentContainerStyle={{  height: 600, width: 300, backgroundColor: '#ffffff', elevation: 100, borderRadius: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 20, 
+        // opacity: profileChangerOpacity 
+      }}>
+          <Text>Describe a dream picture and we'll do the rest</Text>
+          <TextInput
+            multiline={true}
+            numberOfLines={3}
+            autoFocus={true}
+            // onBlur={() => { togglePrompt() }}
+            value={prompt}
+            onChangeText={ (text) => { setPrompt(text) } }
+            style={{
+              height: 'auto',
+              width: '100%',
+              backgroundColor: 'cyan',
+              textAlignVertical: 'top',
+              padding: 20,
+            }}
+          />
+
+            {
+              !loading ? 
+              profileImages.map((image, index) => (
+                <TouchableOpacity
+                style={{
+                  height: 200,
+                  width: "100%",
+                  marginTop: 10,
+                  elevation: 10,
+                  borderWidth: 2
+                }}
+                onPress={ () => { updateProfileImage(image.url) } }
+                >
+                  <Image
+                    key={index}
+                    style={{
+                      height: 200,
+                      width: "100%",
+                    }}
+                    source={{ uri: image.url }}
+                    alt="image"
+                    />
+                  </TouchableOpacity>
+              ))
+              :
+              <CircleFade size={20} />
+            }
+
+          <TouchableOpacity style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 100, height: 50, width: 200, elevation: 10, backgroundColor: '#C0DD4D', marginTop: 10 }} onPress={() => { generateImage() }}>
+            <Text>Surprise me</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </View>
+      }
 
       <View style={themeStyles.profileScreenHeader}>
       <MaterialIcons name="keyboard-backspace" size={25} color="#000000" onPress={ () => { navigation.goBack() } } />
@@ -36,7 +137,9 @@ function ProfileScreen({ navigation }) {
         {
           user &&
           <View style={themeStyles.profileBox}>
-            <Image style={themeStyles.profileImage} source={{ uri: `${API_SERVER_URL}/api/static/images/model_s.png` }} alt='avatar' resizeMode='contain' />
+            <TouchableOpacity onPress={() => { setShowProfileDescBox(true) }} >
+              <Image style={themeStyles.profileImage} source={{ uri: user.profileImage === 'none' ? `https://robohash.org/${user.name}?set=set2` : user.profileImage }} alt='avatar' resizeMode='contain'/>
+            </TouchableOpacity>
             <Text style={{ fontWeight: 'bolder', fontSize: 20, marginBottom: 5 }}>{user.username}</Text>
             <Text style={{  fontSize: 15, marginBottom: 5 }}>{user.email}</Text>
             <View style={themeStyles.switchButton}>

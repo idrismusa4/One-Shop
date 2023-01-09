@@ -81,7 +81,8 @@ export default function App() {
       <ThemeContext.Provider value={{ 
         theme: currentTheme, 
         toggleTheme: toggleTheme,
-        themeStyles: currentTheme === 'light' ? styles.lightStyles : styles.darkStyles,
+        // themeStyles: currentTheme === 'light' ? styles.lightStyles : styles.darkStyles,
+        themeStyles: currentTheme === 'light' ? styles.lightStyles : styles.lightStyles,
         user: user,
         setUser: setUser,
         oneshopData: oneshopData,
