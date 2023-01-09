@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Text, View, Image, ScrollView, TextInput, TouchableOpacity, Pressable } from 'react-native';
+import { Text, View, Image, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import { ThemeContext } from '../context/ThemeContext';
 import { AntDesign, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import ProfileAction from '../components/ProfileAction';
@@ -56,13 +56,19 @@ function ProfileScreen({ navigation }) {
     }
   }
 
-  // function toggleTheme(){
-  //   updateOneshopData({
-  //     ...oneshopData,
-  //     currentTheme: oneshopData.currentTheme === 'light' ? 'dark' : 'light'
-  //   });
-  // }
-  
+  function switchMode(){
+    updateOneshopData({
+      ...oneshopData,
+      mode: oneshopData.mode === 'rentee' ? 'renter' : 'rentee'
+    });
+  }
+
+  function toggleTheme(){
+    updateOneshopData({
+      ...oneshopData,
+      currentTheme: oneshopData.currentTheme === 'light' ? 'dark' : 'light'
+    });
+  }
 
   return (
     <ScrollView contentContainerStyle={themeStyles.container}>
@@ -72,7 +78,7 @@ function ProfileScreen({ navigation }) {
         <ScrollView contentContainerStyle={{  height: 600, width: 300, backgroundColor: '#ffffff', elevation: 100, borderRadius: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 20, 
         // opacity: profileChangerOpacity 
       }}>
-          <Text>Describe a dream picture and we'll do the rest</Text>
+          <Text>Describe a picture and we'll do the rest</Text>
           <TextInput
             multiline={true}
             numberOfLines={3}
@@ -129,9 +135,9 @@ function ProfileScreen({ navigation }) {
 
         {
           oneshopData.currentTheme === 'light' ?
-          <Ionicons name="md-moon-sharp" size={24} color="#000000" />
+          <Ionicons name="md-moon-sharp" size={24} color="#000000" onPress={ () => { toggleTheme() } } />
           :
-          <Ionicons name="sunny-outline" size={24} color="#ffffff" />
+          <Ionicons name="sunny-outline" size={24} color="#000000" onPress={ () => { toggleTheme() } } />
         }
       </View>
         {
@@ -142,14 +148,14 @@ function ProfileScreen({ navigation }) {
             </TouchableOpacity>
             <Text style={{ fontWeight: 'bolder', fontSize: 20, marginBottom: 5 }}>{user.username}</Text>
             <Text style={{  fontSize: 15, marginBottom: 5 }}>{user.email}</Text>
-            <View style={themeStyles.switchButton}>
+            <TouchableOpacity style={themeStyles.switchButton} onPress={ () => { switchMode() } }>
             {
               oneshopData.mode === 'renter' ?
               <Text style={{ fontSize: 20 }}>Switch to Rentee</Text>
               :
               <Text style={{ fontSize: 20 }}>Switch to Renter</Text>
             }
-            </View>
+            </TouchableOpacity>
           </View>
       }
 

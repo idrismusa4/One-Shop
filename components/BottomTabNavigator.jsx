@@ -1,3 +1,6 @@
+import { useContext } from 'react';
+import { ThemeContext } from '../context/ThemeContext';
+
 // import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image } from 'react-native';
@@ -12,6 +15,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import ItemScreen from '../screens/ItemScreen';
 
 export default function BottomTabNavigator(){
+  const { oneshopData } = useContext(ThemeContext);
   // const Tab = createMaterialTopTabNavigator();
   const Tab = createBottomTabNavigator();
 
@@ -83,7 +87,7 @@ export default function BottomTabNavigator(){
         >
             <Tab.Screen name="Home" component={HomeScreen} />
             <Tab.Screen name="Discover" component={DiscoverScreen} />
-            {true ? <Tab.Screen name="AddItem" component={AddItemScreen} options={{
+            {oneshopData.mode === 'renter' && <Tab.Screen name="AddItem" component={AddItemScreen} options={{
               tabBarShowLabel: false,
               tabBarLabelStyle: {
                 display: 'none'
@@ -92,7 +96,7 @@ export default function BottomTabNavigator(){
                 width: 70,
                 height: 40
               }
-            }}/> : <></>}
+            }}/> }
             <Tab.Screen name="Activity" component={ActivityScreen} />
             <Tab.Screen name="Profile" component={ProfileScreen} />
             <Tab.Screen name="Item" component={ItemScreen} options={{

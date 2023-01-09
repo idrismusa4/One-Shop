@@ -6,6 +6,7 @@ import axios from 'axios';
 import { CircleFade } from 'react-native-animated-spinkit';
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import CustomRating from '../components/CustomRating';
+import Item from '../components/Item';
 
 function ItemScreen({ route, navigation }) {
     const { itemId } = route.params;
@@ -13,9 +14,23 @@ function ItemScreen({ route, navigation }) {
     const height = Dimensions.get('window').height;
     const [item, setItem] = useState({});
     const [loading, setLoading] = useState(false);
+    const [relatedProducts, setRelatedProducts] = useState([]);
 
-
+    const limit = 5;
     const { API_SERVER_URL, themeStyles } = useContext(ThemeContext);
+    async function getRelatedProducts(category_id){
+        try{
+            const res = await axios.get(`${API_SERVER_URL}/api/item/all?limit=${limit}&categoryId=${category_id}`);
+            const { allItems, success } = res.data;
+            // console.log(item);
+            
+            if(success) return setRelatedProducts(allItems.filter((item) => item._id !== itemId));
+            
+            alert(message);
+        }catch(error){
+            console.log(error);
+        }
+    }
     async function getItem(){
         setLoading(true);
         try{
@@ -23,6 +38,7 @@ function ItemScreen({ route, navigation }) {
             const { item, success, message } = res.data;
             // console.log(item);
             setLoading(false);
+            getRelatedProducts(item.category_id);
             if(success) return setItem(item);
             
             alert(message);
@@ -96,7 +112,7 @@ function ItemScreen({ route, navigation }) {
                         <Text style={{width: "50%" }}>${item.price}</Text>
                     </View>
                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', height: 40, borderTopWidth: 1, borderTopColor: '#000000' }}>
-                        <Text style={{ fontWeight: 'bold', width: '40%' }}>Name</Text>
+                        <Text style={{ fontWeight: 'bold', width: '40%' }}>Owner Name</Text>
                         <Text style={{width: "50%" }}>Nicolas Addams</Text>
                     </View>
                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', height: 40, borderTopWidth: 1, borderTopColor: '#000000' }}>
@@ -105,6 +121,17 @@ function ItemScreen({ route, navigation }) {
                     </View>
 
                 </View>
+
+                <Text style={{ fontSize: 15, marginTop: 10}}>VERIFIED CUSTOMER REVIEWS</Text>
+                <Text style={{ fontSize: 15, marginTop: 10}}>RELATED PRODUCTS</Text>
+                {
+                    relatedProducts.length > 0 ?
+                    relatedProducts.map((item) => (
+                        <Item key={item._id} item={item} navigation={navigation} />
+                    ))
+                    :
+                    <Text>No related products</Text>
+                }
             </View>
         </ScrollView>
         :
