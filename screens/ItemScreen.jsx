@@ -7,6 +7,8 @@ import { CircleFade } from 'react-native-animated-spinkit';
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import CustomRating from '../components/CustomRating';
 import Item from '../components/Item';
+import ProductReview from '../components/ProductReview';
+import AddReview from '../components/AddReview';
 
 function ItemScreen({ route, navigation }) {
     const { itemId } = route.params;
@@ -122,8 +124,16 @@ function ItemScreen({ route, navigation }) {
 
                 </View>
 
-                <Text style={{ fontSize: 15, marginTop: 10}}>VERIFIED CUSTOMER REVIEWS</Text>
-                <Text style={{ fontSize: 15, marginTop: 10}}>RELATED PRODUCTS</Text>
+                <Text style={{ fontSize: 15, marginVertical: 20}}>VERIFIED CUSTOMER FEEDBACK</Text>
+                <ProductReview review={{
+                    text: "I purchased this product a few weeks ago and I'm extremely impressed with its performance. The build quality is top-notch and it has exceeded my expectations in terms of functionality. It's very easy to set up and use, and the instructions were clear and straightforward. I particularly appreciate the range of features and settings it offers, which allows me to customize it to my needs. Overall, I'm extremely happy with my purchase and I would highly recommend this product to anyone in the market for one. 5 out of 5 stars!",
+                    username: "Nicolas Adams",
+                    date: "10-01-2023",
+                    rating: 4
+                }} />
+                <AddReview />
+
+                <Text style={{ fontSize: 15, marginVertical: 20}}>RELATED PRODUCTS</Text>
                 {
                     relatedProducts.length > 0 ?
                     relatedProducts.map((item) => (

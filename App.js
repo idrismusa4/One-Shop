@@ -88,8 +88,8 @@ export default function App() {
         oneshopData: oneshopData,
         updateOneshopData: updateOneshopData,
         clearOneshopData: clearOneshopData,
-        API_SERVER_URL: "http://192.168.43.240:5000"
-        // API_SERVER_URL: "http://192.168.82.165:5000"
+        // API_SERVER_URL: "http://192.168.43.240:5000"
+        API_SERVER_URL: "http://10.4.24.176:5000"
       }}>
         <NavigationContainer>
           {
