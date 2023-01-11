@@ -4,7 +4,7 @@ import Carousel from 'react-native-reanimated-carousel';
 import { ThemeContext } from '../context/ThemeContext';
 import axios from 'axios';
 import { CircleFade } from 'react-native-animated-spinkit';
-import { AntDesign, MaterialIcons } from '@expo/vector-icons';
+import { AntDesign, MaterialIcons, Entypo } from '@expo/vector-icons';
 import CustomRating from '../components/CustomRating';
 import Item from '../components/Item';
 import ProductReview from '../components/ProductReview';
@@ -16,10 +16,13 @@ function ItemScreen({ route, navigation }) {
     const height = Dimensions.get('window').height;
     const [item, setItem] = useState({});
     const [loading, setLoading] = useState(false);
+    const [reviewLoading, setReviewLoading] = useState(false);
+    const [reviews, setReviews] = useState([]);
+    const [itemReviewsCount, setItemReviewsCount] = useState([]);
     const [relatedProducts, setRelatedProducts] = useState([]);
 
     const limit = 5;
-    const { API_SERVER_URL, themeStyles } = useContext(ThemeContext);
+    const { API_SERVER_URL, themeStyles, oneshopData, user } = useContext(ThemeContext);
     async function getRelatedProducts(category_id){
         try{
             const res = await axios.get(`${API_SERVER_URL}/api/item/all?limit=${limit}&categoryId=${category_id}`);
@@ -48,8 +51,57 @@ function ItemScreen({ route, navigation }) {
             console.log(error);
         }
     }
+    async function getReviews(){
+        // setLoading(true);
+        try{
+            const res = await axios.get(`${API_SERVER_URL}/api/review/item?itemId=${itemId}&limit=${3}`);
+            const { itemReviews, itemReviewsCount, success, message } = res.data;
+            // return console.log(itemReviews);
+            // setLoading(false);
+            
+            if(success) {
+                setReviews(itemReviews);
+                setItemReviewsCount(itemReviewsCount);
+                return;
+            }
+            
+            alert(message);
+        }catch(error){
+            console.log(error);
+        }
+    }
+    async function handleSubmitReview(review, rating){
+        if(!review) return alert('Fields cannot be empty');
+        setReviewLoading(true);
+        try{
+            let body = {
+                rating,
+                text: review,
+                sender_id: user._id,
+                sender_name: user.username,
+                item_id: itemId
+            };
+            // return console.log(body);
+            const res = await axios.post(`${API_SERVER_URL}/api/review/new`, body);
+            const { updatedItem, success, message } = res.data;
+            // return console.log(itemReviews);
+            setReviewLoading(false);
+            
+            if(success) {
+                getReviews();
+                console.log(updatedItem)
+                setItem(updatedItem);
+                return 
+            }
+            
+            alert(message);
+        }catch(error){
+            console.log(error);
+        }
+    }
     useEffect(() => {
         getItem();
+        getReviews();
     }, [itemId]);
 
     return (
@@ -75,7 +127,7 @@ function ItemScreen({ route, navigation }) {
                             height: '100%'
                         }}
                         resizeMode='cover'
-                        alt='image not found'
+                        alt='missing image'
                         />  
                     </Fragment>
                 )}
@@ -84,7 +136,11 @@ function ItemScreen({ route, navigation }) {
                 <Text style={themeStyles.title}>{item.name}</Text>
                 <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center',justifyContent: 'space-between', width: '100%', height: 40, backgroundColor: ''  }}>
                     <CustomRating defaultRating={item.rating} />
-                    <AntDesign name='heart' size={30} color='red' />
+                    <Text style={{ fontSize: 10 }}>({itemReviewsCount} ratings)</Text>
+                    <Entypo name='share' size={20} color='#dbd40b' style={{ marginLeft: 'auto', marginRight: 15 }} />
+                    <TouchableOpacity>
+                    <AntDesign name='heart' size={20} color='#dbd40b' />
+                    </TouchableOpacity>
                 </View>
 
                 <Text>{item.description}</Text>
@@ -125,22 +181,35 @@ function ItemScreen({ route, navigation }) {
                 </View>
 
                 <Text style={{ fontSize: 15, marginVertical: 20}}>VERIFIED CUSTOMER FEEDBACK</Text>
-                <ProductReview review={{
-                    text: "I purchased this product a few weeks ago and I'm extremely impressed with its performance. The build quality is top-notch and it has exceeded my expectations in terms of functionality. It's very easy to set up and use, and the instructions were clear and straightforward. I particularly appreciate the range of features and settings it offers, which allows me to customize it to my needs. Overall, I'm extremely happy with my purchase and I would highly recommend this product to anyone in the market for one. 5 out of 5 stars!",
-                    username: "Nicolas Adams",
-                    date: "10-01-2023",
-                    rating: 4
-                }} />
-                <AddReview />
+                {
+                    reviews.length > 0 ?
+                    reviews.map((review) => (
+                        <ProductReview key={review._id} review={review} />
+                    ))
+                    :
+                    <Text>No reviews yet</Text>
+                }
+                <AddReview handleSubmitReview={handleSubmitReview} reviewLoading={reviewLoading} />
 
                 <Text style={{ fontSize: 15, marginVertical: 20}}>RELATED PRODUCTS</Text>
                 {
                     relatedProducts.length > 0 ?
                     relatedProducts.map((item) => (
                         <Item key={item._id} item={item} navigation={navigation} />
-                    ))
-                    :
-                    <Text>No related products</Text>
+                        ))
+                        :
+                        <Text  style={{ color: 'gray' }}>No related products</Text>
+                    }
+                {
+                    oneshopData.recentSearches.length > 0 && 
+                    <Fragment>
+                        <Text style={{ fontSize: 15, marginVertical: 20}}>RECENTLY VIEWED PRODUCTS</Text>
+                        {
+                            oneshopData.recentSearches.slice(0, 3).map((item) => (
+                                <Item key={item._id} item={item} navigation={navigation} />
+                            ))
+                        }
+                    </Fragment>
                 }
             </View>
         </ScrollView>

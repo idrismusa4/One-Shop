@@ -44,7 +44,7 @@ function ProfileScreen({ navigation }) {
       updateOneshopData({
         ...oneshopData,
         user: {
-          ...user,
+          ...oneshopData.user,
           profileImage: imageUrl
         }
       });
@@ -74,10 +74,11 @@ function ProfileScreen({ navigation }) {
     <ScrollView contentContainerStyle={themeStyles.container}>
       {
         showProfileDescBox &&
-      <View style={{ backgroundColor: 'transparent', position: 'absolute', height: '100%', zIndex: 2, width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <ScrollView contentContainerStyle={{  height: 600, width: 300, backgroundColor: '#ffffff', elevation: 100, borderRadius: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 20, 
+      // <View style={{ backgroundColor: 'red', position: 'absolute', height: '100%', zIndex: 2, width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <View style={{  position: 'absolute', zIndex: 20,  height: '100%', width: '100%', backgroundColor: '#ffffff', elevation: 100, display: 'flex', alignItems: 'center', justifyContent: 'space-around', padding: 20
         // opacity: profileChangerOpacity 
       }}>
+          <MaterialIcons name="cancel" size={30} color='red' style={{ marginLeft: 'auto' }} onPress={ () => { setShowProfileDescBox(false) } } />
           <Text>Describe a picture and we'll do the rest</Text>
           <TextInput
             multiline={true}
@@ -99,6 +100,7 @@ function ProfileScreen({ navigation }) {
               !loading ? 
               profileImages.map((image, index) => (
                 <TouchableOpacity
+                key={index}
                 style={{
                   height: 200,
                   width: "100%",
@@ -109,7 +111,6 @@ function ProfileScreen({ navigation }) {
                 onPress={ () => { updateProfileImage(image.url) } }
                 >
                   <Image
-                    key={index}
                     style={{
                       height: 200,
                       width: "100%",
@@ -126,8 +127,8 @@ function ProfileScreen({ navigation }) {
           <TouchableOpacity style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 100, height: 50, width: 200, elevation: 10, backgroundColor: '#C0DD4D', marginTop: 10 }} onPress={() => { generateImage() }}>
             <Text>Surprise me</Text>
           </TouchableOpacity>
-        </ScrollView>
-      </View>
+        </View>
+      // </View>
       }
 
       <View style={themeStyles.profileScreenHeader}>

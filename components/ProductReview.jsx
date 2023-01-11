@@ -3,15 +3,19 @@ import { View, Text, StyleSheet } from 'react-native';
 import CustomRating from './CustomRating';
 
 const ProductReview = ({ review }) => {
+  const dateObj = new Date(review.createdAt);
+  const month = dateObj.getUTCMonth() + 1; //months from 1-12
+  const day = dateObj.getUTCDate();
+  const year = dateObj.getUTCFullYear();
   return (
     <View style={styles.reviewContainer}>
       <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
         <CustomRating defaultRating={review.rating} />
-        <Text style={styles.reviewDate}>{review.date}</Text>
+        <Text style={styles.reviewDate}>{`${day}-${month}-${year}`}</Text>
       </View>
       <Text style={styles.reviewText}>{review.text}</Text>
       <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-        <Text style={styles.reviewUsername}>by {review.username}</Text>
+        <Text style={styles.reviewUsername}>by {review.sender_name}</Text>
         <Text style={styles.verifiedText}>verified purchase</Text>
       </View>
     </View>

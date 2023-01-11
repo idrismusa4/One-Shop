@@ -12,7 +12,7 @@ function DiscoverScreen({ navigation }) {
   const [searchFocused, setSearchFocused] = useState(true);
   const [searchInput, setSearchInput] = useState("");
   const [categories, setCategories] = useState([]);
-  const { themeStyles, oneshopData, updateOneshopData, API_SERVER_URL, theme } = useContext(ThemeContext);
+  const { themeStyles, oneshopData, updateOneshopData, API_SERVER_URL, updateRecentSearches, handleDeleteRecentSearch } = useContext(ThemeContext);
   const [currentCategoryId, setCurrentCategoryId] = useState('all');
   const [loading, setLoading] = useState(false);
   const [items, setItems] = useState([]);
@@ -125,52 +125,24 @@ function DiscoverScreen({ navigation }) {
     }
     setLoading(false);
   }
+  // console.log(oneshopData);
   
-  async function updateRecentSearches(searchInput) {
-    if (searchInput.trim().length === 0) return;
-    filterItems(currentCategoryId);
-    let oneshopData = await AsyncStorage.getItem('@oneshopData');
-    oneshopData = JSON.parse(oneshopData);
-    let { recentSearches } = oneshopData;
-    
-    let searchInputExists = recentSearches.find((search) => search === searchInput);
-    if (searchInputExists) {
-      recentSearches = recentSearches.filter((oldSearch) => oldSearch !== searchInput);
-    }
-    recentSearches.unshift(searchInput);
-    oneshopData = {
-      ...oneshopData, recentSearches: recentSearches
-    }
-    oneshopData = JSON.stringify(oneshopData);
-    updateOneshopData(oneshopData);
-  }
   
-  async function handleDeleteRecentSearch(search) {
-    let oneshopData = await AsyncStorage.getItem('@oneshopData');
-    oneshopData = JSON.parse(oneshopData);
-    let { recentSearches } = oneshopData;
-    recentSearches = recentSearches.filter((oldSearch) => oldSearch !== search);
-    
-    oneshopData = { ...oneshopData, recentSearches: recentSearches }
-    oneshopData = JSON.stringify(oneshopData);
-    updateOneshopData(oneshopData);
-  }
-  
-  function handleInputFocused(event) {
+  function handleInputFocused() {
     if(currentCategoryId !== 'all') setCurrentCategoryId('all');
     setSearchFocused(true);
   }
   
-  function handleInputBlurred(event) {
+  function handleInputBlurred() {
     setSearchFocused(false);
     filterItems('all', searchInput);
   }
   
   function handleSubmit(suggestion) {
-    setSearchInput(suggestion);
-    handleSearchSuggestions(suggestion);
+    setSearchInput(suggestion.name);
+    handleSearchSuggestions(suggestion.name);
     updateRecentSearches(suggestion);
-    filterItems('all', suggestion);
+    filterItems('all', suggestion.name);
     Keyboard.dismiss();
   }
 
@@ -253,7 +225,7 @@ function DiscoverScreen({ navigation }) {
                     items.map((search, index) => (
                       <View key={index} style={{ height: 30, display: 'flex', flexDirection: 'row', alignItems: 'center', paddingVertical: 2, fontSize: 15, marginBottom: 10 }}>
                         <EvilIcons name='search' color='black' size={20} />
-                        <TouchableOpacity style={{ width: '100%' }} onPress={() => { handleSubmit(search.name) }}>
+                        <TouchableOpacity style={{ width: '100%' }} onPress={() => { handleSubmit(search) }}>
                           <Text style={{ fontSize: 15, marginLeft: 5 }}>{search.name}</Text>
                         </TouchableOpacity>
                         <Feather name='arrow-up-left' color='black' size={20} style={{ marginLeft: 'auto' }} onPress={() => {
@@ -275,11 +247,11 @@ function DiscoverScreen({ navigation }) {
                       oneshopData.recentSearches.map((search, index) => (
                         <View key={index} style={{ height: 30, display: 'flex', flexDirection: 'row', alignItems: 'center', paddingVertical: 2, fontSize: 15, marginBottom: 10 }}>
                           <EvilIcons name='clock' color='black' size={20} />
-                          <TouchableOpacity style={{ width: '100%' }} onPress={() => { handleSubmit(search) }}>
-                            <Text style={{ fontSize: 15, marginLeft: 5 }}>{search}</Text>
+                          <TouchableOpacity style={{ width: '100%' }} onPress={() => { handleSubmit(search.name) }}>
+                            <Text style={{ fontSize: 15, marginLeft: 5 }}>{search.name}</Text>
                           </TouchableOpacity>
                           <Entypo name='cross' color='black' size={20} style={{ marginLeft: 'auto' }} onPress={() => {
-                            handleDeleteRecentSearch(search)
+                            handleDeleteRecentSearch(search.name)
                           }} />
                         </View>
                       ))

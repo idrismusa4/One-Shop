@@ -16,7 +16,7 @@ import Toast from 'react-native-root-toast';
 export default function App() {
   const [currentTheme, setCurrentTheme] = useState('light');
   const [oneshopData, setOneshopData] = useState({});
-  const [user, setUser] = useState();
+  const [user, setUser] = useState({});
   // const [user, setUser] = useState();
   // const [loading, setLoading] = useState(false);
   function toggleTheme(){
@@ -44,7 +44,7 @@ export default function App() {
     loadOneshopData();
   }
   async function updateOneshopData(oneshopData){
-    // return console.log(oneshopData)
+    // console.log(JSON.stringify(oneshopData))
     await AsyncStorage.setItem('@oneshopData', JSON.stringify(oneshopData));
     loadOneshopData();
   }
@@ -57,17 +57,67 @@ export default function App() {
       // console.log(oneshopData);
       return;
     }
-    updateOneshopData(JSON.stringify({
+    // return console.log(JSON.stringify({
+    //   user: {},
+    //   recentSearches: [],
+    //   currentTheme: 'light',
+    //   mode: 'rentee'
+    // }));
+    updateOneshopData({
       user: {},
       recentSearches: [],
       currentTheme: 'light',
       mode: 'rentee'
-    }));
+    });
     // oneshopData = await AsyncStorage.getItem('@oneshopData');
     // .then((res) => console.log(res))
     // console.log(typeof oneshopData === 'object');
 
   }
+
+
+  async function updateRecentSearches(item) {
+    let { name: searchInput } = item;
+    if (searchInput.trim().length === 0) return;
+    
+    // let oneshopData = await AsyncStorage.getItem('@oneshopData');
+    // oneshopData = JSON.parse(oneshopData);
+    // return console.log(oneshopData);
+    let { recentSearches } = oneshopData;
+    
+    let searchInputExists = recentSearches.find((search) => search.name === searchInput);
+    if (searchInputExists) {
+      recentSearches = recentSearches.filter((oldSearch) => oldSearch.name !== searchInput);
+    }
+    recentSearches.unshift(item);
+    // oneshopData = JSON.stringify(oneshopData);
+    updateOneshopData({
+      ...oneshopData, 
+      recentSearches: recentSearches
+    });
+  }
+  
+  async function handleDeleteRecentSearch(search) {
+    // let oneshopData = await AsyncStorage.getItem('@oneshopData');
+    // oneshopData = JSON.parse(oneshopData);
+    let { recentSearches } = oneshopData;
+    recentSearches = recentSearches.filter((oldSearch) => oldSearch.name !== search);
+    // return console.log(recentSearches);
+    
+    // oneshopData = { ...oneshopData, recentSearches: recentSearches }
+    // oneshopData = JSON.stringify(oneshopData);
+    // return console.log({ 
+    //   ...oneshopData, 
+    //   recentSearches: recentSearches 
+    // });
+    updateOneshopData({ 
+      ...oneshopData, 
+      recentSearches: recentSearches 
+    });
+  }
+
+
+
   useEffect(() => {
     loadOneshopData();
     // clearOneshopData();
@@ -76,24 +126,26 @@ export default function App() {
     // console.log(process.env.NODE_ENV);
   }, []);
   
-  
+  // console.log(user)
     return(
       <ThemeContext.Provider value={{ 
         theme: currentTheme, 
-        toggleTheme: toggleTheme,
+        toggleTheme,
         // themeStyles: currentTheme === 'light' ? styles.lightStyles : styles.darkStyles,
-        themeStyles: currentTheme === 'light' ? styles.lightStyles : styles.lightStyles,
-        user: user,
-        setUser: setUser,
-        oneshopData: oneshopData,
-        updateOneshopData: updateOneshopData,
-        clearOneshopData: clearOneshopData,
-        // API_SERVER_URL: "http://192.168.43.240:5000"
-        API_SERVER_URL: "http://10.4.24.176:5000"
+        themeStyles: styles.lightStyles,
+        user,
+        setUser,
+        oneshopData,
+        updateOneshopData,
+        clearOneshopData,
+        updateRecentSearches,
+        handleDeleteRecentSearch,
+        API_SERVER_URL: "http://192.168.43.240:5000"
+        // API_SERVER_URL: "http://10.4.24.176:5000"
       }}>
         <NavigationContainer>
           {
-            !user ? 
+            Object.keys(user).length === 0 ? 
             <StackNavigator /> 
             : 
            <BottomTabNavigator />

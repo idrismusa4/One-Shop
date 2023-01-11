@@ -221,8 +221,29 @@ export const styles = {
             marginBottom: 15,
             elevation: 5
             // justifyContent: 'space-between',
-            
-        }
+        },
+        reviewContainer: {
+            padding: 10,
+            borderWidth: 1,
+            borderColor: '#ddd',
+            marginBottom: 10
+          },
+          reviewText: {
+            fontSize: 14,
+            marginBottom: 5
+          },
+          reviewUsername: {
+            fontSize: 12,
+            color: 'gray',
+            marginBottom: 5
+          },
+          reviewDate: {
+            fontSize: 12,
+            color: 'gray'
+          },
+          verifiedText: {
+            color: '#dbd40b'
+          }
     },
     darkStyles: {
         container: {

@@ -4,14 +4,16 @@ import { ThemeContext } from '../context/ThemeContext';
 import CustomRating from './CustomRating';
 import axios from 'axios';
 
+
 function Item({ item, navigation }) {
-    const { themeStyles, API_SERVER_URL } = useContext(ThemeContext);
+    const { themeStyles, API_SERVER_URL, updateRecentSearches } = useContext(ThemeContext);
     
 
     return (
     <View style={themeStyles.itemOuterContainer}>
         <Pressable style={themeStyles.itemInnerContainer} 
             onPress={ () => { 
+                updateRecentSearches(item);
                 navigation.navigate('Item', { itemId: item._id });
             }}
         >
