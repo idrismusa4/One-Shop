@@ -4,6 +4,7 @@ import { ThemeContext } from '../context/ThemeContext';
 import axios from 'axios';
 import { CircleFade } from 'react-native-animated-spinkit';
 import Toast from 'react-native-root-toast';
+import Modal from "react-native-modal";
 
 export default function RegisterScreen({ navigation }) {
   const { themeStyles, user, setUser, API_SERVER_URL } = useContext(ThemeContext);
@@ -31,7 +32,13 @@ export default function RegisterScreen({ navigation }) {
         backgroundColor: 'red',
       });
     
-    let readyUserData = { ...userData };
+    let readyUserData = { 
+      ...userData,
+      username: userData.username.trim(),
+      email: userData.email.trim(),
+      password: userData.password.trim(),
+      reenterPassword: userData.reenterPassword.trim(),
+    };
     delete readyUserData['reenterPassword'];
     setUserData(readyUserData);
 
@@ -62,8 +69,13 @@ export default function RegisterScreen({ navigation }) {
   }
 
   return (
-    !loading ?
     <View style={themeStyles.container}>
+
+      <Modal isVisible={loading}>
+        <CircleFade size={100} color='#C0DD4D' style={{ marginLeft: 'auto', marginRight: 'auto' }} />
+      </Modal>
+
+
       <ScrollView showsVerticalScrollIndicator={false}>
       <Image source={require('../assets/logo.png')} style={{ ...themeStyles.logo, width: 150, height: 150 }} alt='logo' />
       <View style={themeStyles.form}>
@@ -146,10 +158,6 @@ export default function RegisterScreen({ navigation }) {
       </TouchableOpacity>
       
         </ScrollView>
-    </View>
-    :
-    <View style={themeStyles.speechBoxOuter}>
-      <CircleFade size={100} color='#C0DD4D' />
     </View>
   );
 }

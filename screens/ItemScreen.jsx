@@ -15,6 +15,7 @@ function ItemScreen({ route, navigation }) {
     const width = Dimensions.get('window').width;
     const height = Dimensions.get('window').height;
     const [item, setItem] = useState({});
+    const [owner, setOwner] = useState({});
     const [loading, setLoading] = useState(false);
     const [reviewLoading, setReviewLoading] = useState(false);
     const [reviews, setReviews] = useState([]);
@@ -40,11 +41,15 @@ function ItemScreen({ route, navigation }) {
         setLoading(true);
         try{
             const res = await axios.get(`${API_SERVER_URL}/api/item/${itemId}`);
-            const { item, success, message } = res.data;
-            // console.log(item);
+            const { item, success, message, owner: itemOwner } = res.data;
+            // console.log(itemOwner);
             setLoading(false);
             getRelatedProducts(item.category_id);
-            if(success) return setItem(item);
+            if(success) {
+                setItem(item);
+                setOwner(itemOwner);
+                return;
+            }
             
             alert(message);
         }catch(error){
@@ -89,7 +94,7 @@ function ItemScreen({ route, navigation }) {
             
             if(success) {
                 getReviews();
-                console.log(updatedItem)
+                // console.log(updatedItem)
                 setItem(updatedItem);
                 return 
             }
@@ -171,7 +176,7 @@ function ItemScreen({ route, navigation }) {
                     </View>
                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', height: 40, borderTopWidth: 1, borderTopColor: '#000000' }}>
                         <Text style={{ fontWeight: 'bold', width: '40%' }}>Owner Name</Text>
-                        <Text style={{width: "50%" }}>Nicolas Addams</Text>
+                        <Text style={{width: "50%" }}>{owner && owner.username}</Text>
                     </View>
                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', height: 40, borderTopWidth: 1, borderTopColor: '#000000' }}>
                         <Text style={{ fontWeight: 'bold', width: '40%' }}>Payment</Text>
@@ -187,7 +192,7 @@ function ItemScreen({ route, navigation }) {
                         <ProductReview key={review._id} review={review} />
                     ))
                     :
-                    <Text>No reviews yet</Text>
+                    <Text style={{ color: 'gray' }}>No reviews yet</Text>
                 }
                 <AddReview handleSubmitReview={handleSubmitReview} reviewLoading={reviewLoading} />
 

@@ -104,7 +104,7 @@ export const styles = {
             marginBottom: 20, 
             backgroundColor: '#656060', 
             borderRadius: 20, 
-            paddingRight: 20,
+            paddingRight: 10,
             elevation: 7
         },
         itemInnerContainer: {
@@ -112,6 +112,8 @@ export const styles = {
             marginBottom: 2, 
             // backgroundColor: '#b3c3c4', 
             backgroundColor: '#ffffff', 
+            borderTopRightRadius: 10, 
+            borderBottomRightRadius: 10, 
             borderTopLeftRadius: 20, 
             borderBottomLeftRadius: 20, 
             paddingVertical: 10,

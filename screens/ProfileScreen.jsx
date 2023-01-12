@@ -5,6 +5,7 @@ import { AntDesign, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import ProfileAction from '../components/ProfileAction';
 import axios from 'axios';
 import { CircleFade } from 'react-native-animated-spinkit';
+import Modal from "react-native-modal";
 
 function ProfileScreen({ navigation }) {
   const [profileImages, setProfileImages] = useState([]);
@@ -12,6 +13,7 @@ function ProfileScreen({ navigation }) {
   const [loading, setLoading] = useState(false);
   const [showProfileDescBox, setShowProfileDescBox] = useState(false);
   const { themeStyles, user, theme, API_SERVER_URL, oneshopData, clearOneshopData, updateOneshopData } = useContext(ThemeContext);
+  const [modalVisible, setModalVisible] = useState(false);
 
   function logout(){
     clearOneshopData();
@@ -189,9 +191,18 @@ function ProfileScreen({ navigation }) {
         <ProfileAction 
           action="Logout"
           action_icon={<AntDesign name="logout" size={24} color="black" />} 
-          onPress={logout}
+          onPress={ () => { setModalVisible(true) } }
         />
 
+        <Modal isVisible={modalVisible}>
+          <View style={{ height: 150, width: '90%', backgroundColor: '#ffffff', borderRadius: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 20 }}>
+            <Text style={{ ...themeStyles.regularText }}>All data will be cleared</Text>
+            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Text style={{ ...themeStyles.regularText, width: '50%', height: 40, textAlignVertical: 'center', textAlign: 'center' }} onPress={ () => { logout() } }>Proceed</Text>
+              <Text style={{ ...themeStyles.regularText, width: '50%', height: 40, textAlignVertical: 'center', textAlign: 'center' }} onPress={ () => { setModalVisible(false) } }>Cancel</Text>
+            </View>
+          </View>
+        </Modal>
         
 
       </View>

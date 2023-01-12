@@ -4,6 +4,7 @@ import { ThemeContext } from '../context/ThemeContext';
 import axios from 'axios';
 import { CircleFade } from 'react-native-animated-spinkit';
 import Toast from 'react-native-root-toast';
+import Modal from "react-native-modal";
 
 export default function LoginScreen({ navigation }) {
   const { themeStyles, setUser, API_SERVER_URL, oneshopData, updateOneshopData } = useContext(ThemeContext);
@@ -31,7 +32,7 @@ export default function LoginScreen({ navigation }) {
     // setUserData(readyUserData);
     
     try{
-      // setLoading(true);
+      setLoading(true);
       let res = await axios.post(`${API_SERVER_URL}/api/user/login`, userData);
       // return console.log(res.data.user)
       if(res.data.success) {
@@ -65,8 +66,12 @@ export default function LoginScreen({ navigation }) {
   }
   
   return (
-    !loading ?
     <View style={themeStyles.container}>
+      
+      <Modal isVisible={loading}>
+        <CircleFade size={100} color='#C0DD4D' style={{ marginLeft: 'auto', marginRight: 'auto' }} />
+      </Modal>
+
       <ScrollView showsVerticalScrollIndicator={false}>
       <Image source={require('../assets/logo.png')} style={{ ...themeStyles.logo, width: 150, height: 150 }} alt='logo' />
       <View style={themeStyles.form}>
@@ -90,7 +95,9 @@ export default function LoginScreen({ navigation }) {
            secureTextEntry
            />
         </View>
-        
+        <TouchableOpacity style={{ marginLeft: 'auto' }} onPress={ () => { alert('coming soon...') } }>
+          <Text style={{ color: '#6F7D34' }}>Forgot Password</Text>
+        </TouchableOpacity>
 
         <Pressable 
           style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#C0DD4D', width: 150, height: 50, paddingLeft: 20, paddingRight: 10, marginTop: 10, marginBottom: 20, marginLeft: 'auto', marginRight: 'auto', borderRadius: 30 }} 
@@ -132,10 +139,6 @@ export default function LoginScreen({ navigation }) {
       </TouchableOpacity>
       
         </ScrollView>
-    </View>
-    :
-    <View style={themeStyles.speechBoxOuter}>
-      <CircleFade size={100} color='#C0DD4D' />
     </View>
   );
 }
