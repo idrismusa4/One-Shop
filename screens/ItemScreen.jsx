@@ -9,6 +9,7 @@ import CustomRating from '../components/CustomRating';
 import Item from '../components/Item';
 import ProductReview from '../components/ProductReview';
 import AddReview from '../components/AddReview';
+import Modal from "react-native-modal";
 
 function ItemScreen({ route, navigation }) {
     const { itemId } = route.params;
@@ -16,14 +17,15 @@ function ItemScreen({ route, navigation }) {
     const height = Dimensions.get('window').height;
     const [item, setItem] = useState({});
     const [owner, setOwner] = useState({});
-    const [loading, setLoading] = useState(false);
+    const [itemLoading, setItemLoading] = useState(false);
     const [reviewLoading, setReviewLoading] = useState(false);
+    const [wishlistLoading, setWishlistLoading] = useState(false);
     const [reviews, setReviews] = useState([]);
     const [itemReviewsCount, setItemReviewsCount] = useState([]);
     const [relatedProducts, setRelatedProducts] = useState([]);
 
     const limit = 5;
-    const { API_SERVER_URL, themeStyles, oneshopData, user } = useContext(ThemeContext);
+    const { API_SERVER_URL, themeStyles, oneshopData, user, updateOneshopData } = useContext(ThemeContext);
     async function getRelatedProducts(category_id){
         try{
             const res = await axios.get(`${API_SERVER_URL}/api/item/all?limit=${limit}&categoryId=${category_id}`);
@@ -38,12 +40,12 @@ function ItemScreen({ route, navigation }) {
         }
     }
     async function getItem(){
-        setLoading(true);
+        setItemLoading(true);
         try{
             const res = await axios.get(`${API_SERVER_URL}/api/item/${itemId}`);
             const { item, success, message, owner: itemOwner } = res.data;
             // console.log(itemOwner);
-            setLoading(false);
+            setItemLoading(false);
             getRelatedProducts(item.category_id);
             if(success) {
                 setItem(item);
@@ -53,16 +55,21 @@ function ItemScreen({ route, navigation }) {
             
             alert(message);
         }catch(error){
+            if(error.response.data.statusCode === 404){
+                alert('Item not found');
+                navigation.navigate("Discover");
+            }
+            
             console.log(error);
         }
     }
     async function getReviews(){
-        // setLoading(true);
+        // setItemLoading(true);
         try{
             const res = await axios.get(`${API_SERVER_URL}/api/review/item?itemId=${itemId}&limit=${3}`);
             const { itemReviews, itemReviewsCount, success, message } = res.data;
             // return console.log(itemReviews);
-            // setLoading(false);
+            // setItemLoading(false);
             
             if(success) {
                 setReviews(itemReviews);
@@ -104,17 +111,55 @@ function ItemScreen({ route, navigation }) {
             console.log(error);
         }
     }
+    async function addToWishlist(item){
+        setWishlistLoading(true);
+
+        try{
+            let body = {
+                user_id: user._id,
+                item
+            };
+            // return console.log(body);
+            const res = await axios.post(`${API_SERVER_URL}/api/user/update/wishlist`, body);
+            const { updatedUser: { wishlist }, success, message } = res.data;
+            // return console.log(wishlist);
+            if(success) {
+                updateOneshopData({
+                    ...oneshopData,
+                    user: {
+                        ...oneshopData.user,
+                        wishlist
+                    }
+                });
+                alert(message);
+              }
+
+            setWishlistLoading(false);
+            
+            
+        }catch(error){
+            console.log(error);
+        }
+    }
     useEffect(() => {
         getItem();
         getReviews();
     }, [itemId]);
 
     return (
-        !loading ? 
+        !itemLoading ? 
+        <Fragment>
+
+        <TouchableOpacity style={{ height: 30, width: 30, backgroundColor: '#000000', borderRadius: 100, marginTop: StatusBar.currentHeight, marginLeft: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute', zIndex: 2 }}>
+            <MaterialIcons name="keyboard-backspace" size={25} color="#ffffff" onPress={ () => { navigation.goBack() } } />
+        </TouchableOpacity>
+
         <ScrollView style={{ flex: 1 }}>
-            <TouchableOpacity style={{ height: 30, width: 30, backgroundColor: '#000000', borderRadius: 100, marginTop: StatusBar.currentHeight, marginLeft: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute', zIndex: 2 }}>
-                <MaterialIcons name="keyboard-backspace" size={25} color="#ffffff" onPress={ () => { navigation.goBack() } } />
-            </TouchableOpacity>
+
+            <Modal isVisible={wishlistLoading}>
+                <CircleFade size={100} color='#C0DD4D' style={{ marginLeft: 'auto', marginRight: 'auto' }} />
+            </Modal>
+
             <Carousel
                 loop
                 width={width}
@@ -136,15 +181,15 @@ function ItemScreen({ route, navigation }) {
                         />  
                     </Fragment>
                 )}
-            />
+                />
             <View style={{ padding: 20 }}>
                 <Text style={themeStyles.title}>{item.name}</Text>
                 <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center',justifyContent: 'space-between', width: '100%', height: 40, backgroundColor: ''  }}>
                     <CustomRating defaultRating={item.rating} />
                     <Text style={{ fontSize: 10 }}>({itemReviewsCount} ratings)</Text>
                     <Entypo name='share' size={20} color='#dbd40b' style={{ marginLeft: 'auto', marginRight: 15 }} />
-                    <TouchableOpacity>
-                    <AntDesign name='heart' size={20} color='#dbd40b' />
+                    <TouchableOpacity onPress={ () => { addToWishlist(item) } }>
+                        <AntDesign name='heart' size={20} color='#dbd40b' />
                     </TouchableOpacity>
                 </View>
 
@@ -190,10 +235,10 @@ function ItemScreen({ route, navigation }) {
                     reviews.length > 0 ?
                     reviews.map((review) => (
                         <ProductReview key={review._id} review={review} />
-                    ))
-                    :
-                    <Text style={{ color: 'gray' }}>No reviews yet</Text>
-                }
+                        ))
+                        :
+                        <Text style={{ color: 'gray' }}>No reviews yet</Text>
+                    }
                 <AddReview handleSubmitReview={handleSubmitReview} reviewLoading={reviewLoading} />
 
                 <Text style={{ fontSize: 15, marginVertical: 20}}>RELATED PRODUCTS</Text>
@@ -212,12 +257,13 @@ function ItemScreen({ route, navigation }) {
                         {
                             oneshopData.recentSearches.slice(0, 3).map((item) => (
                                 <Item key={item._id} item={item} navigation={navigation} />
-                            ))
-                        }
+                                ))
+                            }
                     </Fragment>
                 }
             </View>
         </ScrollView>
+        </Fragment>
         :
         <View style={{
             display: 'flex',

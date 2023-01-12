@@ -42,14 +42,16 @@ function ProfileScreen({ navigation }) {
         userId: user._id,
         imageUrl
       });
-      if(res.data.success) alert(res.data.message);
-      updateOneshopData({
-        ...oneshopData,
-        user: {
-          ...oneshopData.user,
-          profileImage: imageUrl
-        }
-      });
+      if(res.data.success) {
+        alert(res.data.message);
+        updateOneshopData({
+          ...oneshopData,
+          user: {
+            ...oneshopData.user,
+            profileImage: res.data.updatedUser.profileImage
+          }
+        });
+      }
       setShowProfileDescBox(false);
       setLoading(false);
     }catch(error){
