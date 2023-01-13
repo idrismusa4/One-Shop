@@ -19,7 +19,6 @@ function ItemScreen({ route, navigation }) {
     const [owner, setOwner] = useState({});
     const [itemLoading, setItemLoading] = useState(false);
     const [reviewLoading, setReviewLoading] = useState(false);
-    const [wishlistLoading, setWishlistLoading] = useState(false);
     const [reviews, setReviews] = useState([]);
     const [itemReviewsCount, setItemReviewsCount] = useState([]);
     const [relatedProducts, setRelatedProducts] = useState([]);
@@ -111,8 +110,7 @@ function ItemScreen({ route, navigation }) {
             console.log(error);
         }
     }
-    async function addToWishlist(item){
-        setWishlistLoading(true);
+    async function handleUpdateWishlist(item){
 
         try{
             let body = {
@@ -131,10 +129,9 @@ function ItemScreen({ route, navigation }) {
                         wishlist
                     }
                 });
-                alert(message);
+                // alert(message);
               }
 
-            setWishlistLoading(false);
             
             
         }catch(error){
@@ -155,10 +152,6 @@ function ItemScreen({ route, navigation }) {
         </TouchableOpacity>
 
         <ScrollView style={{ flex: 1 }}>
-
-            <Modal isVisible={wishlistLoading}>
-                <CircleFade size={100} color='#C0DD4D' style={{ marginLeft: 'auto', marginRight: 'auto' }} />
-            </Modal>
 
             <Carousel
                 loop
@@ -188,8 +181,13 @@ function ItemScreen({ route, navigation }) {
                     <CustomRating defaultRating={item.rating} />
                     <Text style={{ fontSize: 10 }}>({itemReviewsCount} ratings)</Text>
                     <Entypo name='share' size={20} color='#dbd40b' style={{ marginLeft: 'auto', marginRight: 15 }} />
-                    <TouchableOpacity onPress={ () => { addToWishlist(item) } }>
-                        <AntDesign name='heart' size={20} color='#dbd40b' />
+                    <TouchableOpacity onPress={ () => { handleUpdateWishlist(item) } }>
+                        {
+                            user.wishlist.find((wishlistItem) => ( wishlistItem._id === item._id )) ? 
+                            <AntDesign name='heart' size={20} color='#dbd40b' />
+                            :
+                            <AntDesign name='hearto' size={20} color='#dbd40b' />
+                        }
                     </TouchableOpacity>
                 </View>
 
