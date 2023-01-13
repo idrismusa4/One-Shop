@@ -22,7 +22,8 @@ function ItemScreen({ route, navigation }) {
     const [reviews, setReviews] = useState([]);
     const [itemReviewsCount, setItemReviewsCount] = useState([]);
     const [relatedProducts, setRelatedProducts] = useState([]);
-
+    const [showRentSuccess, setShowRentSuccess] = useState(false);
+    
     const limit = 5;
     const { API_SERVER_URL, themeStyles, oneshopData, user, updateOneshopData } = useContext(ThemeContext);
     async function getRelatedProducts(category_id){
@@ -152,6 +153,22 @@ function ItemScreen({ route, navigation }) {
         </TouchableOpacity>
 
         <ScrollView style={{ flex: 1 }}>
+            <Modal isVisible={showRentSuccess}>
+                <View style={{ height: '80%', width: '90%', backgroundColor: '#ffffff', borderRadius: 20, paddingTop: 50, paddingBottom: 150, display: 'flex', alignItems: 'center', justifyContent: 'space-around', marginLeft: 'auto', marginRight: 'auto' }}>
+                    <AntDesign name='checkcircleo' size={100} color='#C0DD4D' />
+
+                    <Text style={{ fontSize: 20 }}>Item rented successfully</Text>
+                    
+                    <TouchableOpacity style={{ borderRadius: 20, borderColor: '#C0DD4D', borderWidth: 1, elevation: 5, backgroundColor: '#ffffff', height: 30, width: '70%' }} onPress={ () => { setShowRentSuccess(false); navigation.navigate('Discover'); } }>
+                        <Text style={{ fontSize: 15, textAlign: 'center', textAlignVertical: 'center' }}>Keep Browsing</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={{ borderRadius: 20, borderColor: '#C0DD4D', borderWidth: 1, elevation: 5, backgroundColor: '#ffffff', height: 30, width: '70%' }} onPress={ () => { setShowRentSuccess(false); navigation.navigate('Home'); } }>
+                        <Text style={{ fontSize: 15, textAlign: 'center', textAlignVertical: 'center' }}>Go Back Home</Text>
+                    </TouchableOpacity>
+                    
+                </View>
+            </Modal>
 
             <Carousel
                 loop

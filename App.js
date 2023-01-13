@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { TouchableOpacity, Dimensions } from 'react-native';
 import { ThemeContext, styles } from './context/ThemeContext';
 import { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
@@ -12,6 +12,7 @@ import RegisterScreen from './screens/RegisterScreen';
 import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
 import Toast from 'react-native-root-toast';
+import { AntDesign } from '@expo/vector-icons';
 
 export default function App() {
   const [currentTheme, setCurrentTheme] = useState('light');
@@ -22,6 +23,8 @@ export default function App() {
   function toggleTheme(){
     setCurrentTheme((currentTheme) => currentTheme === 'light' ? 'dark' : 'light');
   }
+  const windowWidth = Dimensions.get('window').width;
+  const windowHeight = Dimensions.get('window').height;
   
   // async function saveUser(userData){
   //   await AsyncStorage.setItem('@user', JSON.stringify({...userData}));
@@ -143,6 +146,9 @@ export default function App() {
         API_SERVER_URL: "http://192.168.43.240:5000"
         // API_SERVER_URL: "http://10.4.24.176:5000"
       }}>
+        <TouchableOpacity style={{  position: 'absolute', marginTop: windowHeight - 100, marginLeft: windowWidth - 70, backgroundColor: '#C0DD4D', borderRadius: 100, height: 50, width: 50, zIndex: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', elevation: 5 }} onPress={ () => { alert("E") } }>
+          <AntDesign name='shoppingcart' size={30} color='#ffffff' />
+        </TouchableOpacity>
         <NavigationContainer>
           {
             Object.keys(user).length === 0 ? 

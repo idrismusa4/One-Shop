@@ -196,8 +196,8 @@ function ProfileScreen({ navigation }) {
           onPress={ () => { setModalVisible(true) } }
         />
 
-        <Modal isVisible={modalVisible}>
-          <View style={{ height: 150, width: '90%', backgroundColor: '#ffffff', borderRadius: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 20 }}>
+        <Modal isVisible={modalVisible} style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <View style={{ height: 150, width: '100%', backgroundColor: '#ffffff', borderRadius: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 20, marginLeft: 'auto', marginRight: 'auto' }}>
             <Text style={{ ...themeStyles.regularText }}>All data will be cleared</Text>
             <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
               <Text style={{ ...themeStyles.regularText, width: '50%', height: 40, textAlignVertical: 'center', textAlign: 'center' }} onPress={ () => { logout() } }>Proceed</Text>
