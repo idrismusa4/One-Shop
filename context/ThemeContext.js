@@ -13,7 +13,7 @@ export const styles = {
             backgroundColor: 'white',
             paddingLeft: 10,
             paddingRight: 10,
-            marginTop: StatusBar.currentHeight
+            paddingTop: StatusBar.currentHeight
         },
         title: {
             fontSize: 30,

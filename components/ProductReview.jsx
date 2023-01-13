@@ -24,6 +24,7 @@ const ProductReview = ({ review }) => {
 
 const styles = StyleSheet.create({
   reviewContainer: {
+    width: '100%',
     padding: 10,
     borderWidth: 1,
     borderColor: '#ddd',
