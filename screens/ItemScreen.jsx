@@ -1,6 +1,5 @@
 import { Fragment, useContext, useEffect, useState } from 'react';
-import { Dimensions, Image, Text, View, ScrollView, TouchableOpacity, StatusBar } from 'react-native';
-import Carousel from 'react-native-reanimated-carousel';
+import { Text, View, ScrollView, TouchableOpacity, StatusBar } from 'react-native';
 import { ThemeContext } from '../context/ThemeContext';
 import axios from 'axios';
 import { CircleFade } from 'react-native-animated-spinkit';
@@ -10,11 +9,11 @@ import Item from '../components/Item';
 import ProductReview from '../components/ProductReview';
 import AddReview from '../components/AddReview';
 import Modal from "react-native-modal";
+import DateRangePicker from '../components/DateRangePicker';
+import CarouselSlider from '../components/CarouselSlider';
 
 function ItemScreen({ route, navigation }) {
     const { itemId } = route.params;
-    const width = Dimensions.get('window').width;
-    const height = Dimensions.get('window').height;
     const [item, setItem] = useState({});
     const [owner, setOwner] = useState({});
     const [itemLoading, setItemLoading] = useState(false);
@@ -112,6 +111,7 @@ function ItemScreen({ route, navigation }) {
             console.log(error);
         }
     }
+    
     async function handleUpdateWishlist(item){
         setWishlistUpdating(true);
         try{
@@ -120,7 +120,7 @@ function ItemScreen({ route, navigation }) {
                 item
             };
             // return console.log(body);
-            const res = await axios.post(`${API_SERVER_URL}/api/user/update/wishlist`, body);
+            const res = await axios.put(`${API_SERVER_URL}/api/user/update/wishlist`, body);
             const { updatedUser: { wishlist }, success, message } = res.data;
             // return console.log(wishlist);
             if(success) {
@@ -142,6 +142,7 @@ function ItemScreen({ route, navigation }) {
             console.log(error);
         }
     }
+    
     useEffect(() => {
         getItem();
         getReviews();
@@ -173,28 +174,8 @@ function ItemScreen({ route, navigation }) {
                 </View>
             </Modal>
 
-            <Carousel
-                loop
-                width={width}
-                height={height / 2.5}
-                autoPlay={true}
-                data={item.thumbnails}
-                scrollAnimationDuration={1000}
-                pagingEnabled={true}
-                renderItem={({ item: image }) => (
-                    <Fragment>
-                        <Image 
-                        source={{ uri: `${API_SERVER_URL}/api/static/images/${image}` }}
-                        style={{
-                            width: '100%',
-                            height: '100%'
-                        }}
-                        resizeMode='cover'
-                        alt='missing image'
-                        />  
-                    </Fragment>
-                )}
-                />
+            <CarouselSlider item={item} />
+            
             <View style={{ padding: 20 }}>
                 <Text style={themeStyles.title}>{item.name}</Text>
                 <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center',justifyContent: 'space-between', width: '100%', height: 40, backgroundColor: ''  }}>
@@ -218,19 +199,7 @@ function ItemScreen({ route, navigation }) {
 
                 <Text>{item.description}</Text>
 
-                <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent:'space-between', width: '100%', height: 60, marginTop: 10 }}>
-
-                    <View style={{ display: 'flex', justifyContent:'space-between', width: '45%', height: '100%', }}>
-                        <Text style={{ fontWeight: 'bold' }}>Check-in</Text>
-                        <Text style={{ borderRadius: 100, paddingVertical: 5, paddingHorizontal: 20, borderWidth: 1, borderColor: '#000000' }}>February 22, 2022</Text>
-                    </View>
-
-                    <View style={{ display: 'flex', justifyContent:'space-between', width: '45%', height: '100%' }}>
-                        <Text style={{ fontWeight: 'bold' }}>Check-out</Text>
-                        <Text style={{ borderRadius: 100, paddingVertical: 5, paddingHorizontal: 20, borderWidth: 1, borderColor: '#000000' }}>February 28, 2022</Text>
-                    </View>
-
-                </View>
+                <DateRangePicker />
 
                 <View style={{ marginTop: 20, borderBottomWidth: 1, borderBottomColor: '#000000' }}>
                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', height: 40, borderTopWidth: 1, borderTopColor: '#000000' }}>
@@ -239,7 +208,7 @@ function ItemScreen({ route, navigation }) {
                     </View>
                     
                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', height: 40, borderTopWidth: 1, borderTopColor: '#000000' }}>
-                        <Text style={{ fontWeight: 'bold', width: '40%' }}>Price</Text>
+                        <Text style={{ fontWeight: 'bold', width: '40%' }}>Price / day</Text>
                         <Text style={{width: "50%" }}>${item.price}</Text>
                     </View>
                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', height: 40, borderTopWidth: 1, borderTopColor: '#000000' }}>
@@ -252,6 +221,10 @@ function ItemScreen({ route, navigation }) {
                     </View>
 
                 </View>
+
+                <TouchableOpacity style={{ backgroundColor: '#C0DD4D', elevation: 3, borderRadius: 5, height: 30, width: '50%', marginLeft: 'auto', marginRight: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'center', marginVertical: 10 }}>
+                    <Text>Rent</Text>
+                </TouchableOpacity>
 
                 <Text style={{ fontSize: 15, marginVertical: 20}}>VERIFIED CUSTOMER FEEDBACK</Text>
                 {
