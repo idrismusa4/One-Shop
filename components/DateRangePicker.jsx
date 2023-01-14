@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Button } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-const DateRangePicker = () => {
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+const DateRangePicker = ({ startDate, setStartDate, endDate, setEndDate }) => {
   const [showStartPicker, setShowStartPicker] = useState(false);
   const [showEndPicker, setShowEndPicker] = useState(false);
 

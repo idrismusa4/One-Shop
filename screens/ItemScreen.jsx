@@ -23,6 +23,8 @@ function ItemScreen({ route, navigation }) {
     const [relatedProducts, setRelatedProducts] = useState([]);
     const [showRentSuccess, setShowRentSuccess] = useState(false);
     const [wishlistUpdating, setWishlistUpdating] = useState(false);
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
     
     const limit = 5;
     const { API_SERVER_URL, themeStyles, oneshopData, user, updateOneshopData } = useContext(ThemeContext);
@@ -86,7 +88,7 @@ function ItemScreen({ route, navigation }) {
         if(!review) return alert('Fields cannot be empty');
         setReviewLoading(true);
         try{
-            let body = {
+            const body = {
                 rating,
                 text: review,
                 sender_id: user._id,
@@ -115,9 +117,9 @@ function ItemScreen({ route, navigation }) {
     async function handleUpdateWishlist(item){
         setWishlistUpdating(true);
         try{
-            let body = {
+            const body = {
                 user_id: user._id,
-                item
+                item,
             };
             // return console.log(body);
             const res = await axios.put(`${API_SERVER_URL}/api/user/update/wishlist`, body);
@@ -143,22 +145,43 @@ function ItemScreen({ route, navigation }) {
         }
     }
     
+    async function handleRentItem(item){
+        try{
+            const body = {
+                user_id: user._id,
+                item,
+                check_in: startDate,
+                check_out: endDate
+            };
+            // return console.log(body);
+            const res = await axios.post(`${API_SERVER_URL}/api/order/new`, body);
+            const { order, success, message } = res.data;
+            // return console.log(order);
+            if(success) setShowRentSuccess(true);
+            
+        }catch(error){
+            console.log(error);
+        }
+    }
     useEffect(() => {
         getItem();
         getReviews();
     }, [itemId]);
-
+    
     return (
         !itemLoading ? 
-        <Fragment>
+        <View>
 
-        <TouchableOpacity style={{ height: 30, width: 30, backgroundColor: '#000000', borderRadius: 100, marginTop: StatusBar.currentHeight, marginLeft: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute', zIndex: 2 }}>
-            <MaterialIcons name="keyboard-backspace" size={25} color="#ffffff" onPress={ () => { navigation.goBack() } } />
-        </TouchableOpacity>
-
-        <ScrollView style={{ flex: 1 }}>
-            <Modal isVisible={showRentSuccess}>
-                <View style={{ height: '80%', width: '90%', backgroundColor: '#ffffff', borderRadius: 20, paddingTop: 50, paddingBottom: 150, display: 'flex', alignItems: 'center', justifyContent: 'space-around', marginLeft: 'auto', marginRight: 'auto' }}>
+            <Modal backdropOpacity={0.6} animationIn='fadeIn' animationOut='fadeOut' isVisible={showRentSuccess}>
+                <View style={{ height: '80%', width: '90%', backgroundColor: '#ffffff', borderRadius: 20, paddingTop: 50, paddingBottom: 150, display: 'flex', alignItems: 'center', justifyContent: 'space-around', marginLeft: 'auto', marginRight: 'auto',  shadowColor: "#000",
+                shadowOffset: {
+                    width: 100,
+                    height: 100
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 4,
+                elevation: 5
+                }}>
                     <AntDesign name='checkcircleo' size={100} color='#C0DD4D' />
 
                     <Text style={{ fontSize: 20 }}>Item rented successfully</Text>
@@ -174,9 +197,16 @@ function ItemScreen({ route, navigation }) {
                 </View>
             </Modal>
 
+        <TouchableOpacity style={{ height: 30, width: 30, backgroundColor: '#000000', borderRadius: 100, marginTop: StatusBar.currentHeight, marginLeft: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute', zIndex: 2 }}>
+            <MaterialIcons name="keyboard-backspace" size={25} color="#ffffff" onPress={ () => { navigation.goBack() } } />
+        </TouchableOpacity>
+
+        <ScrollView>
+            
+
             <CarouselSlider item={item} />
             
-            <View style={{ padding: 20 }}>
+            <View style={{ padding: 20, borderTopRightRadius: 20, borderTopLeftRadius: 20, elevation: 3 }}>
                 <Text style={themeStyles.title}>{item.name}</Text>
                 <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center',justifyContent: 'space-between', width: '100%', height: 40, backgroundColor: ''  }}>
                     <CustomRating defaultRating={item.rating} />
@@ -199,7 +229,6 @@ function ItemScreen({ route, navigation }) {
 
                 <Text>{item.description}</Text>
 
-                <DateRangePicker />
 
                 <View style={{ marginTop: 20, borderBottomWidth: 1, borderBottomColor: '#000000' }}>
                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', height: 40, borderTopWidth: 1, borderTopColor: '#000000' }}>
@@ -222,7 +251,9 @@ function ItemScreen({ route, navigation }) {
 
                 </View>
 
-                <TouchableOpacity style={{ backgroundColor: '#C0DD4D', elevation: 3, borderRadius: 5, height: 30, width: '50%', marginLeft: 'auto', marginRight: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'center', marginVertical: 10 }}>
+                <DateRangePicker startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate} />
+
+                <TouchableOpacity style={{ backgroundColor: '#C0DD4D', elevation: 3, borderRadius: 5, height: 30, width: '50%', marginLeft: 'auto', marginRight: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'center', marginVertical: 10 }} onPress={ () => { handleRentItem(item) } }>
                     <Text>Rent</Text>
                 </TouchableOpacity>
 
@@ -259,7 +290,7 @@ function ItemScreen({ route, navigation }) {
                 }
             </View>
         </ScrollView>
-        </Fragment>
+        </View>
         :
         <View style={{
             display: 'flex',
