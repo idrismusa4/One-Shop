@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Text, ScrollView, View } from 'react-native';
-import { useContext } from 'react';
 import { ThemeContext } from '../context/ThemeContext';
 import CarouselComp from '../components/CarouselComp';
 
@@ -11,7 +10,7 @@ function HomeScreen() {
       <ScrollView contentContainerStyle={{ paddingTop: 20 }}>
         <Text style={themeStyles.welcome}>Welcome, {user.username}</Text>
 
-        <Text style={themeStyles.title}>Top Picks</Text>
+        <Text style={{ fontSize: 20, marginTop: 20 }}>Top Picks</Text>
         <CarouselComp />
       </ScrollView>
     </View>

@@ -1,6 +1,7 @@
 import { Text, Image, View, Pressable, ScrollView } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Entypo, Ionicons } from "@expo/vector-icons";
+import CarouselComp from "../components/CarouselComp";
 
 export default function ImagePickerComponent({ images, setImages }) {
   const pickImage = async () => {
@@ -45,7 +46,7 @@ export default function ImagePickerComponent({ images, setImages }) {
           style={{
             height: "100%",
             width: "100%",
-            backgroundColor: "gray",
+            backgroundColor: "#ddd",
             borderRadius: 20,
             display: "flex",
             alignItems: "center",

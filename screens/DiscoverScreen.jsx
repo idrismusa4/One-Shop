@@ -333,7 +333,7 @@ function DiscoverScreen({ navigation }) {
                         }
                       </View>
                       :
-                      <View>
+                      <View style={{ marginBottom: 60 }}>
                         { items.map((item) => (
                           <Item key={item._id} item={item} navigation={navigation} />
                         )) }

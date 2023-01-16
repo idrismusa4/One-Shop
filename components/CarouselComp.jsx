@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Dimensions } from "react-native";
 import Carousel, { Pagination } from "react-native-anchor-carousel";
 
 function CarouselComp() {
-  const [activeIndex, setActiveIndex] = useState(0);
+  // const [activeIndex, setActiveIndex] = useState(0);
   const { width: windowWidth } = Dimensions.get("window");
 
   const data = [
@@ -39,7 +39,7 @@ function CarouselComp() {
         itemWidth={windowWidth * 0.7}
         separatorWidth={10}
         containerWidth={windowWidth}
-        initialIndex={Math.round(data.length/2) - 1}
+        initialIndex={Math.round((data.length - 1) / 2)}
         inActiveOpacity={0.3}
       />
       {/* <Pagination
