@@ -12,7 +12,7 @@ function ActivityScreen({ navigation }) {
     const { API_SERVER_URL, themeStyles, user } = useContext(ThemeContext);
     const [showModal, setShowModal] = useState(false);
     const [reviewsLoading, setReviewsLoading] = useState(false);
-    const [currentItem, setCurrentItem] = useState(false);
+    const [currentItem, setCurrentItem] = useState({});
     const [currentItemReviews, setCurrentItemReviews] = useState([]);
     
     async function handleGetReviews(wishlistItem){
@@ -43,7 +43,7 @@ function ActivityScreen({ navigation }) {
       } 
 
     useEffect(() => {
-      if(user){
+      if(user.wishlist){
         if(user.wishlist.length > 0) setCurrentItem(user.wishlist[0]);
       }
     });
@@ -70,7 +70,7 @@ function ActivityScreen({ navigation }) {
       <ScrollView>
         <Text style={themeStyles.title}>Wishlist</Text>
         {
-          user &&
+          user.wishlist &&
           <Fragment>
             {
               user.wishlist.length > 0 ?

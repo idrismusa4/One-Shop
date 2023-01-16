@@ -11,6 +11,7 @@ import ProfileScreen from './screens/ProfileScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
+import AddItemScreen from './screens/AddItemScreen';
 import Toast from 'react-native-root-toast';
 
 export default function App() {
@@ -66,7 +67,7 @@ export default function App() {
     //   mode: 'rentee'
     // }));
     updateOneshopData({
-      user: {},
+      user: null,
       recentSearches: [],
       currentTheme: 'light',
       mode: 'rentee'
@@ -143,12 +144,12 @@ export default function App() {
         updateRecentSearches,
         handleDeleteRecentSearch,
         API_SERVER_URL: "http://192.168.43.240:5000"
-        // API_SERVER_URL: "http://10.4.24.176:5000"
+        // API_SERVER_URL: "http://10.1.107.145:5000"
       }}>
         
         <NavigationContainer>
           {
-            Object.keys(user).length === 0 ? 
+            !user ? 
             <StackNavigator /> 
             : 
            <BottomTabNavigator />
@@ -160,6 +161,7 @@ export default function App() {
       {/* <RegisterScreen /> */}
       {/* <LoginScreen /> */}
       {/* <HomeScreen /> */}
+      {/* <AddItemScreen /> */}
       </ThemeContext.Provider>
     );
 }

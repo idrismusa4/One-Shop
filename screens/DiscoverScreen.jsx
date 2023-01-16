@@ -242,7 +242,7 @@ function DiscoverScreen({ navigation }) {
                       oneshopData.recentSearches &&
                       <Fragment>
                     <Text style={{ ...themeStyles.title, fontSize: 20 }}>
-                      {oneshopData.recentSearches.length > 0 &&"Recent searches"}
+                      {oneshopData.recentSearches.length > 0 && "Recent searches"}
                     </Text>
                     {
                       oneshopData.recentSearches.map((search, index) => (

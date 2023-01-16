@@ -29,6 +29,21 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "oneshop needs to access your photos"
+        }
+      ],
+      [
+        "@react-native-voice/voice",
+        {
+          "microphonePermission": "Allow oneshop to access the microphone",
+          "speechRecognitionPermission": "Allow oneshop to securely recognize user speech"
+        }
+      ]
+    ],
     "extra": {
       "eas": {
         "projectId": "4e9f2d6b-3dca-40a2-9467-7a80d3346908"

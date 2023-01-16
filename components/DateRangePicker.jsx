@@ -12,6 +12,7 @@ const DateRangePicker = ({ startDate, setStartDate, endDate, setEndDate }) => {
       if (selectedDate > endDate) {
         alert("Start date cannot be after end date");
       } else {
+        if (selectedDate < (new Date())) return alert("Date cannot be in the past");
         setStartDate(selectedDate);
       }
     }
