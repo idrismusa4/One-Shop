@@ -106,8 +106,9 @@ export default function App() {
         clearOneshopData,
         updateRecentSearches,
         handleDeleteRecentSearch,
-        API_SERVER_URL: "http://192.168.43.240:5000",
+        // API_SERVER_URL: "http://192.168.43.240:5000",
         // API_SERVER_URL: "http://10.1.107.145:5000"
+        API_SERVER_URL: "https://oneshop-backend.up.railway.app"
       }}
     >
       <NavigationContainer>

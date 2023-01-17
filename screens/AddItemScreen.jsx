@@ -91,6 +91,7 @@ function AddItemScreen() {
       }
       alert(message);
     } catch (error) {
+      console.log(error)
       alert("something went wrong");
     }
   }

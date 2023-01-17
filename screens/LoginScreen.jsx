@@ -34,14 +34,7 @@ export default function LoginScreen({ navigation }) {
     try{
       setLoading(true);
       let res = await axios.post(`${API_SERVER_URL}/api/user/login`, userData);
-      // return console.log(res.data.user)
       if(res.data.success) {
-        // setUser(res.data.user);
-        // console.log(typeof oneshopData);
-        // return console.log({
-        //   ...oneshopData,
-        //   user: { ...res.data.user }
-        // });
         updateOneshopData({
           ...oneshopData,
           user: { ...res.data.user }
