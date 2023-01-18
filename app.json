@@ -31,12 +31,6 @@
     },
     "plugins": [
       [
-        "expo-image-picker",
-        {
-          "photosPermission": "oneshop needs to access your photos"
-        }
-      ],
-      [
         "@react-native-voice/voice",
         {
           "microphonePermission": "Allow oneshop to access the microphone",

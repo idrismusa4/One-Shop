@@ -8,11 +8,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { FontAwesome, Feather } from '@expo/vector-icons';
 
 import HomeScreen from '../screens/HomeScreen';
-import DiscoverScreen from '../screens/DiscoverScreen';
-import AddItemScreen from '../screens/AddItemScreen';
-import ActivityScreen from '../screens/ActivityScreen';
-import ProfileScreen from '../screens/ProfileScreen';
-import ItemScreen from '../screens/ItemScreen';
+// import DiscoverScreen from '../screens/DiscoverScreen';
+// import AddItemScreen from '../screens/AddItemScreen';
+// import ActivityScreen from '../screens/ActivityScreen';
+// import ProfileScreen from '../screens/ProfileScreen';
+// import ItemScreen from '../screens/ItemScreen';
 
 export default function BottomTabNavigator(){
   const { oneshopData } = useContext(ThemeContext);
@@ -38,36 +38,36 @@ export default function BottomTabNavigator(){
               : 'home-outline';
               return <Ionicons name={iconName} size={20} color={color} />;
             }
-            if (route.name === 'Discover') {
-              iconName = focused
-              ? 'search-sharp'
-              : 'search-outline';
-              return <Ionicons name={iconName} size={20} color={color} />;
-            }
-            if (route.name === 'AddItem') {
-              iconName = focused
-              ? 'add-circle'
-              : 'add-circle-outline';
-              return <Image source={require('../assets/new.png')} style={{ width: 70, height: 40 }} />;
-            }
-            if (route.name === 'Activity') {
-              iconName = focused
-              ? 'message-circle'
-              : 'message-circle';
-              return <Feather name={iconName} size={20} color={color} />;
-            }
-            if (route.name === 'Profile') {
-              iconName = focused
-                ? 'user'
-                : 'user-o';
-              return <FontAwesome name={iconName} size={20} color={color} />;
-            }
-            if (route.name === 'Item') {
-              iconName = focused
-                ? 'user'
-                : 'user-o';
-              return null;
-            }
+            // if (route.name === 'Discover') {
+            //   iconName = focused
+            //   ? 'search-sharp'
+            //   : 'search-outline';
+            //   return <Ionicons name={iconName} size={20} color={color} />;
+            // }
+            // if (route.name === 'AddItem') {
+            //   iconName = focused
+            //   ? 'add-circle'
+            //   : 'add-circle-outline';
+            //   return <Image source={require('../assets/new.png')} style={{ width: 70, height: 40 }} />;
+            // }
+            // if (route.name === 'Activity') {
+            //   iconName = focused
+            //   ? 'message-circle'
+            //   : 'message-circle';
+            //   return <Feather name={iconName} size={20} color={color} />;
+            // }
+            // if (route.name === 'Profile') {
+            //   iconName = focused
+            //     ? 'user'
+            //     : 'user-o';
+            //   return <FontAwesome name={iconName} size={20} color={color} />;
+            // }
+            // if (route.name === 'Item') {
+            //   iconName = focused
+            //     ? 'user'
+            //     : 'user-o';
+            //   return null;
+            // }
           },
           headerShown: false,
           tabBarIndicatorStyle: {
@@ -86,7 +86,7 @@ export default function BottomTabNavigator(){
         })}
         >
             <Tab.Screen name="Home" component={HomeScreen} />
-            <Tab.Screen name="Discover" component={DiscoverScreen} />
+            {/* <Tab.Screen name="Discover" component={DiscoverScreen} />
             {oneshopData.mode === 'renter' && <Tab.Screen name="AddItem" component={AddItemScreen} options={{
               tabBarShowLabel: false,
               tabBarLabelStyle: {
@@ -103,7 +103,7 @@ export default function BottomTabNavigator(){
               tabBarItemStyle: {
                 display: 'none'
               }
-            }} />
+            }} /> */}
         </Tab.Navigator>
     );
 }
