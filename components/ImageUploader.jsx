@@ -13,10 +13,10 @@ export default function ImagePickerComponent({ images, setImages }) {
       quality: 1,
     });
 
-    // console.log(result.assets);
+    // console.log(result.selected);
 
-    if (!result.canceled) {
-      setImages(result.assets);
+    if (!result.cancelled) {
+      setImages(result.selected);
     }
   };
 
